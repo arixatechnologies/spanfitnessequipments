@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
-const adminCookieName = "span_admin_session";
+export const adminCookieName = "span_admin_session";
 const sessionMaxAge = 60 * 60 * 8;
 const fallbackAdminEmail = "spanfitnessequipments@gmail.com";
 const fallbackAdminPassword = "Span@123";
@@ -34,6 +34,10 @@ export function isEnvAdminConfigured() {
   return Boolean(getAdminEmail() && getAdminPassword() && getSessionSecret());
 }
 
+export function hasEnvAdminCookie(cookieValue?: string) {
+  return Boolean(cookieValue);
+}
+
 export function validateEnvAdminCredentials(email: string, password: string) {
   if (!isEnvAdminConfigured()) return false;
   return safeCompare(email.trim().toLowerCase(), getAdminEmail().trim().toLowerCase()) && safeCompare(password, getAdminPassword());
@@ -57,6 +61,11 @@ export async function signInEnvAdmin(email: string) {
 export async function signOutEnvAdmin() {
   const cookieStore = await cookies();
   cookieStore.delete(adminCookieName);
+}
+
+export async function hasEnvAdminSessionCookie() {
+  const cookieStore = await cookies();
+  return hasEnvAdminCookie(cookieStore.get(adminCookieName)?.value);
 }
 
 export async function getEnvAdminUser() {

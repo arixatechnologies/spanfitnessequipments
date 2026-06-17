@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus, Search, Trash2 } from "lucide-react";
 import { createSimpleRecord, deleteRecord, togglePublished, updateLeadStatus, updateSimpleRecord } from "@/app/admin/actions";
 import { AdminRow, listLocalRows } from "@/lib/admin-store";
-import { createClient } from "@/lib/supabase/server";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 
 type Row = AdminRow & {
   question?: string;
@@ -39,7 +39,7 @@ function searchField(table: string) {
 }
 
 export async function CollectionPage({ title, table, path, search = "", status = "", createHref }: { title: string; table: string; path: string; search?: string; status?: string; createHref?: string }) {
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   let rows: Row[] = [];
 
   if (supabase) {

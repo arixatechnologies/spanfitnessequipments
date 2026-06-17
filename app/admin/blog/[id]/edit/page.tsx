@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { BlogPostForm } from "@/components/admin/content-form";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 import { getLocalRow } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
 
 export default async function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     const post = await getLocalRow("blog_posts", id);
     if (!post) notFound();

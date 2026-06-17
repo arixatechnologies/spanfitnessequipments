@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 import { signInEnvAdmin, signOutEnvAdmin, validateEnvAdminCredentials } from "@/lib/admin-session";
 import { deleteLocalRow, insertLocalRow, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
@@ -34,7 +35,7 @@ export async function logoutAction() {
 export async function deleteRecord(table: string, id: string, path: string) {
   await requireAdmin();
   if (!allowedTables.has(table)) throw new Error("Unsupported table.");
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     await deleteLocalRow(table, id);
     revalidatePath(path);
@@ -49,7 +50,7 @@ export async function togglePublished(table: string, id: string, currentStatus: 
   await requireAdmin();
   const publishableTables = new Set(["products","product_categories","brands","accessories","offers","gallery_items","blog_posts","blog_categories","faqs","testimonials"]);
   if (!publishableTables.has(table)) throw new Error("This record does not support publishing.");
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     await updateLocalRow(table, id, { status: currentStatus === "published" ? "draft" : "published" });
     revalidatePath(path);
@@ -65,7 +66,7 @@ export async function updateLeadStatus(id: string, path: string, formData: FormD
   await requireAdmin();
   const status = String(formData.get("status") || "");
   if (!["new", "contacted", "qualified", "closed", "spam"].includes(status)) throw new Error("Invalid lead status.");
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     await updateLocalRow("contact_leads", id, { status });
     revalidatePath(path);
@@ -87,7 +88,7 @@ export async function saveBlogPost(formData: FormData) {
     meta_title: parsed.data.metaTitle || parsed.data.title, meta_description: parsed.data.metaDescription || parsed.data.excerpt,
     author: "Span Fitness Equipments", published_at: parsed.data.status === "published" ? new Date().toISOString() : null
   };
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     if (id) await updateLocalRow("blog_posts", id, values);
     else await insertLocalRow("blog_posts", values);
@@ -117,7 +118,7 @@ export async function saveProduct(formData: FormData) {
     is_featured: formData.get("isFeatured") === "on",
     is_accessory: formData.get("isAccessory") === "on"
   };
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     if (id) await updateLocalRow("products", id, values);
     else await insertLocalRow("products", values);
@@ -159,7 +160,7 @@ export async function createSimpleRecord(table: string, path: string, formData: 
   }
   if (!["blog_tags","faqs","testimonials","site_settings"].includes(table)) payload.status = "draft";
   if (formData.get("description") && !["faqs","testimonials","site_settings"].includes(table)) payload.description = String(formData.get("description"));
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     await insertLocalRow(table, payload);
     revalidatePath(path);
@@ -198,7 +199,7 @@ export async function updateSimpleRecord(table: string, id: string, path: string
 
   if (description && !["faqs", "testimonials", "site_settings", "seo_settings"].includes(table)) payload.description = description;
 
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     await updateLocalRow(table, id, payload);
     revalidatePath(path);
@@ -216,7 +217,7 @@ export async function uploadMedia(formData: FormData) {
   if (!(file instanceof File) || file.size === 0) throw new Error("Choose an image.");
   const allowed = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
   if (!allowed.includes(file.type) || file.size > 5 * 1024 * 1024) throw new Error("Upload a JPG, PNG, WebP or SVG image up to 5 MB.");
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
   const storagePath = `${new Date().getFullYear()}/${crypto.randomUUID()}-${safeName}`;
   if (!supabase) {
@@ -244,7 +245,7 @@ export async function saveSeoSetting(formData: FormData) {
   const title = String(formData.get("title") || "").trim();
   const description = String(formData.get("description") || "").trim();
   if (!pagePath.startsWith("/") || title.length < 10 || description.length < 50) throw new Error("Enter a valid page path, title and description.");
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   const values = {
     page_path: pagePath,
     title,

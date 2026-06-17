@@ -1,11 +1,11 @@
 import { ProductForm } from "@/components/admin/content-form";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 import { listLocalRows } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
 
 export default async function NewProductPage() {
   await requireAdmin();
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   const [categories, brands] = supabase ? await Promise.all([
     supabase.from("product_categories").select("id,name").order("name"),
     supabase.from("brands").select("id,name").order("name")

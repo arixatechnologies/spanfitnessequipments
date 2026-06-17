@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { ProductForm } from "@/components/admin/content-form";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 import { getLocalRow, listLocalRows } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   if (!supabase) {
     const [product, categories, brands] = await Promise.all([
       getLocalRow("products", id),

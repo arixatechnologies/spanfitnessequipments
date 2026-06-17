@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { FileClock, FileText, ImageIcon, Inbox, Package, PackageCheck } from "lucide-react";
+import { getAdminDataClient } from "@/lib/admin-runtime";
 import { countLocalRows, listLocalRows } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboard() {
   await requireAdmin();
-  const supabase = await createClient();
+  const supabase = await getAdminDataClient();
   const count = async (table: string, status?: string) => {
     if (!supabase) return countLocalRows(table, status);
     let query = supabase.from(table).select("*", { count: "exact", head: true });
