@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 430" role="img" aria-labelledby="title desc">
+  <title id="title">Span Fitness Equipments logo</title>
+  <desc id="desc">Red Span Fitness symbol above the Span Fitness Equipments wordmark.</desc>
+  <g transform="translate(488 18)">
+    <path d="M18 0h112c16 0 24 20 12 31L82 84h88c18 0 25 23 11 34L26 246c-18 15-44-7-31-27l47-73h-70c-18 0-25-23-10-34L83 0H18Z" fill="#BE3144"/>
+    <path d="M97 18 2 108h72c20 0 28 26 12 39l-39 31 114-93H70c-20 0-28-26-12-39l39-28Z" fill="#872341" opacity=".68"/>
+  </g>
+  <g fill="#F7F7FA" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900">
+    <text x="58" y="304" font-size="104" letter-spacing="10">SPAN FITNESS</text>
+  </g>
+  <g fill="#D9DCE4" font-family="Arial, Helvetica, sans-serif" font-weight="400">
+    <text x="170" y="392" font-size="64" letter-spacing="42">EQUIPMENTS</text>
+  </g>
+</svg>
