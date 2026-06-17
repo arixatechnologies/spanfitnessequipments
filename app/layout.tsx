@@ -55,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className="font-body antialiased">
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <SiteChrome>{children}</SiteChrome>
