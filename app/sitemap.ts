@@ -1,11 +1,17 @@
 import type { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/data";
+import { getPublicCategories, getPublicProducts } from "@/lib/public-content";
 import { siteConfig } from "@/src/config/site";
-import { categories, products } from "./data";
 import { createClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getBlogPosts();
+  const [posts, categories, products] = await Promise.all([
+    getBlogPosts(),
+    getPublicCategories(),
+    getPublicProducts(),
+  ]);
   const supabase = await createClient();
   const noindexRows = supabase ? (await supabase.from("seo_settings").select("page_path").eq("noindex", true)).data || [] : [];
   const excluded = new Set(noindexRows.map((row) => row.page_path));

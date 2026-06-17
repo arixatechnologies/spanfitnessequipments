@@ -1,9 +1,15 @@
 import { getBlogPosts } from "@/lib/data";
-import { categories, products } from "@/app/data";
+import { getPublicCategories, getPublicProducts } from "@/lib/public-content";
 import { siteConfig } from "@/src/config/site";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  const posts = await getBlogPosts();
+  const [posts, categories, products] = await Promise.all([
+    getBlogPosts(),
+    getPublicCategories(),
+    getPublicProducts(),
+  ]);
   const content = `# ${siteConfig.name}
 
 > ${siteConfig.description}

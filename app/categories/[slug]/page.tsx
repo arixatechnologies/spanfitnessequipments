@@ -4,20 +4,24 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FaqSection } from "@/components/seo/faq-section";
 import { LeadForm } from "@/components/forms/lead-form";
+import { getPublicCategories, getPublicCategoryBySlug, getPublicProducts } from "@/lib/public-content";
 import { getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, itemListSchema, JsonLd, webPageSchema } from "@/lib/schema";
 import { ProductCard } from "../../components/cards";
 import { ButtonLink, CtaBand, PageHero, SectionTitle } from "../../components/site";
-import { categories, findCategory, products, whatsappUrl } from "../../data";
+import { whatsappUrl } from "../../data";
 
-export function generateStaticParams() { return categories.map(({ slug }) => ({ slug })); }
+export const dynamic = "force-dynamic";
+
+export async function generateStaticParams() { return (await getPublicCategories()).map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const item = findCategory((await params).slug);
+  const item = await getPublicCategoryBySlug((await params).slug);
   return item ? getPageMetadata({ title: item.name, description: item.description, path: `/categories/${item.slug}`, image: item.image }) : {};
 }
 export default async function CategoryDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const category = findCategory((await params).slug);
+  const category = await getPublicCategoryBySlug((await params).slug);
   if (!category) notFound();
+  const products = await getPublicProducts();
   const related = products.filter(item => item.category === category.slug);
   const crumbs = [{ name: "Home", path: "/" }, { name: "Categories", path: "/categories" }, { name: category.name, path: `/categories/${category.slug}` }];
   const faqs = [{ question: `How do I choose the right ${category.name.toLowerCase()}?`, answer: "Start with available space, expected users, training goals, daily usage and budget. Our team can help shortlist suitable configurations." }, { question: `Can I request a quote for ${category.name.toLowerCase()}?`, answer: "Yes. Submit the category enquiry form with your quantity, space and preferred equipment details." }];

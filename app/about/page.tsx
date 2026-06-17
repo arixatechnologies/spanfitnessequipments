@@ -2,17 +2,20 @@ import Image from "next/image";
 import { BadgeCheck, Building2, HeartHandshake, MapPin, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FaqSection } from "@/components/seo/faq-section";
+import { getPublicBrands } from "@/lib/public-content";
 import { getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, JsonLd, webPageSchema } from "@/lib/schema";
 import { seoFaqs } from "@/src/config/seo-content";
 import { CtaBand, SectionTitle } from "../components/site";
-import { brands, business, images } from "../data";
+import { business, images } from "../data";
 
 const title = "About Span Fitness Equipments";
 const description = "Learn about Span Fitness Equipments, owner A Senthil Kumar, our Visakhapatnam showroom, service locations, equipment range and customer-first approach.";
+export const dynamic = "force-dynamic";
 export function generateMetadata() { return getPageMetadata({ title, description, path: "/about", image: images.showroom }); }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const brands = await getPublicBrands();
   const crumbs = [{ name: "Home", path: "/" }, { name: "About", path: "/about" }];
   const whyItems = [
     [Users, "Owner-led guidance", `Speak with ${business.owner} and a team that understands the equipment.`],

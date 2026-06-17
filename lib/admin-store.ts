@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import { business, categories, products } from "@/app/data";
+import { brands, business, categories, products } from "@/app/data";
 
 export type AdminRow = Record<string, unknown> & {
   id: string;
@@ -54,20 +54,20 @@ function defaultDatabase(): AdminDatabase {
     id: item.slug,
     name: item.name,
     slug: item.slug,
+    tagline: item.tagline,
     description: item.description,
+    image_url: item.image,
+    features: item.features,
     status: "published",
   }));
 
-  const brandRows = [
-    "Welcare",
-    "Hercules Fitness",
-    "Reebok",
-    "FIRM",
-    "Accuniq",
-  ].map((name) => row({
-    id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    name,
-    slug: name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+  const brandRows = brands.map((item) => row({
+    id: item.slug,
+    name: item.name,
+    slug: item.slug,
+    summary: item.summary,
+    description: item.description,
+    specialties: item.specialties,
     status: "published",
   }));
 
@@ -81,12 +81,13 @@ function defaultDatabase(): AdminDatabase {
     image_alt: item.name,
     short_description: item.short,
     full_description: item.description,
+    features: item.features,
     status: "published",
     seo_title: item.name,
     seo_description: item.short,
-    is_new_arrival: false,
+    is_new_arrival: Boolean(item.isNew),
     is_featured: false,
-    is_accessory: item.category === "fitness-accessories",
+    is_accessory: Boolean(item.accessory),
   }));
 
   return {
@@ -123,6 +124,81 @@ function defaultDatabase(): AdminDatabase {
   };
 }
 
+function migrateSeededRows(database: AdminDatabase) {
+  let changed = false;
+  const productDefaults = new Map(products.map((item) => [item.slug, item]));
+  const categoryDefaults = new Map(categories.map((item) => [item.slug, item]));
+  const brandDefaults = new Map(brands.map((item) => [item.slug, item]));
+
+  database.products = (database.products || []).map((item) => {
+    const fallback = productDefaults.get(String(item.slug || item.id));
+    if (!fallback) return item;
+
+    const next = { ...item };
+    if (!next.features) {
+      next.features = fallback.features;
+      changed = true;
+    }
+    if (!next.image_url) {
+      next.image_url = fallback.image;
+      changed = true;
+    }
+    if (next.updated_at === next.created_at) {
+      if (next.is_new_arrival !== Boolean(fallback.isNew)) {
+        next.is_new_arrival = Boolean(fallback.isNew);
+        changed = true;
+      }
+      if (next.is_accessory !== Boolean(fallback.accessory)) {
+        next.is_accessory = Boolean(fallback.accessory);
+        changed = true;
+      }
+    }
+    return next;
+  });
+
+  database.product_categories = (database.product_categories || []).map((item) => {
+    const fallback = categoryDefaults.get(String(item.slug || item.id));
+    if (!fallback) return item;
+
+    const next = { ...item };
+    if (!next.tagline) {
+      next.tagline = fallback.tagline;
+      changed = true;
+    }
+    if (!next.image_url) {
+      next.image_url = fallback.image;
+      changed = true;
+    }
+    if (!next.features) {
+      next.features = fallback.features;
+      changed = true;
+    }
+    return next;
+  });
+
+  database.brands = (database.brands || []).map((item) => {
+    const fallback = brandDefaults.get(String(item.slug || item.id));
+    if (!fallback) return item;
+
+    const next = { ...item };
+    if (!next.summary) {
+      next.summary = fallback.summary;
+      changed = true;
+    }
+    if (!next.description) {
+      next.description = fallback.description;
+      changed = true;
+    }
+    if (!next.specialties) {
+      next.specialties = fallback.specialties;
+      changed = true;
+    }
+    return next;
+  });
+
+  return changed;
+}
+
 async function ensureDatabase() {
   await mkdir(dataDir, { recursive: true });
   try {
@@ -137,6 +213,7 @@ async function readDatabase(): Promise<AdminDatabase> {
   const raw = await readFile(dataFile, "utf8");
   const parsed = JSON.parse(raw) as AdminDatabase;
   for (const table of tableNames) parsed[table] ||= [];
+  if (migrateSeededRows(parsed)) await writeDatabase(parsed);
   return parsed;
 }
 

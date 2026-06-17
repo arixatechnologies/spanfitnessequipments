@@ -8,6 +8,7 @@ import { PageHero } from "../components/site";
 
 const title = "Fitness Equipment and Gym Setup Blog";
 const description = "Read gym equipment buying guides, commercial gym setup advice, maintenance tips and local fitness equipment insights from Span Fitness Equipments.";
+export const dynamic = "force-dynamic";
 export function generateMetadata() { return getPageMetadata({ title, description, path: "/blog" }); }
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ q?: string; category?: string }> }) {

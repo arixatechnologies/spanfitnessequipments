@@ -22,13 +22,29 @@ import {
 import { useEffect, useState } from "react";
 import { CategoryCard, NewArrivalCard } from "./components/cards";
 import { ButtonLink } from "./components/site";
+import type { Brand, Category, Product } from "./data";
 import {
   business,
-  categories,
+  brands as fallbackBrands,
+  categories as fallbackCategories,
   images,
-  products,
+  products as fallbackProducts,
   whatsappUrl,
 } from "./data";
+
+type GalleryItem = {
+  title: string;
+  image: string;
+  description: string;
+  href: string;
+};
+
+type HomeClientProps = {
+  categories?: Category[];
+  products?: Product[];
+  brands?: Brand[];
+  galleryItems?: GalleryItem[];
+};
 
 const enquirySessionKey = "span-fitness-enquiry-shown";
 const heroSlides = [
@@ -43,6 +59,24 @@ const heroSlides = [
     position: "object-[54%_center] sm:object-center",
   },
 ] as const;
+
+const fallbackGalleryItems: GalleryItem[] = [
+  { title: "Commercial Gym Setup", image: "/images/gallery/premium-commercial-gym-gallery.png", description: "Complete floor planning", href: "/categories" },
+  { title: "Cardio Zone", image: "/images/gallery/cardio-zone-gallery.png", description: "Treadmills, bikes and ellipticals", href: "/categories/cardio-equipment" },
+  { title: "Strength Floor", image: "/images/gallery/strength-zone-gallery.png", description: "Racks, benches and machines", href: "/categories/strength-equipment" },
+  { title: "Home Gym", image: "/images/gallery/home-gym-gallery.png", description: "Compact fitness corners", href: "/categories/home-gym-equipment" },
+  { title: "Functional Training", image: "/images/gallery/functional-training-gallery.png", description: "Turf, ropes and conditioning", href: "/categories/functional-training" },
+  { title: "Accessory Wall", image: "/images/gallery/accessories-wall-gallery.png", description: "Everyday essentials organized", href: "/accessories" },
+];
+
+function brandTone(slug: string) {
+  if (slug.includes("welcare")) return "welcare";
+  if (slug.includes("hercules")) return "hercules";
+  if (slug.includes("reebok")) return "reebok";
+  if (slug.includes("firm")) return "firm";
+  if (slug.includes("accuniq")) return "accuniq";
+  return "welcare";
+}
 
 function EnquiryPopup({ close }: { close: () => void }) {
   return (
@@ -128,7 +162,12 @@ function EnquiryPopup({ close }: { close: () => void }) {
   );
 }
 
-export default function HomeClient() {
+export default function HomeClient({
+  categories = fallbackCategories,
+  products = fallbackProducts,
+  brands = fallbackBrands,
+  galleryItems = fallbackGalleryItems,
+}: HomeClientProps) {
   const [popup, setPopup] = useState(false);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
 
@@ -537,23 +576,16 @@ export default function HomeClient() {
           </div>
 
           <div className="gallery-lens__stage">
-            {[
-              ["Commercial Gym Setup", "/images/gallery/premium-commercial-gym-gallery.png", "Complete floor planning"],
-              ["Cardio Zone", "/images/gallery/cardio-zone-gallery.png", "Treadmills, bikes and ellipticals"],
-              ["Strength Floor", "/images/gallery/strength-zone-gallery.png", "Racks, benches and machines"],
-              ["Home Gym", "/images/gallery/home-gym-gallery.png", "Compact fitness corners"],
-              ["Functional Training", "/images/gallery/functional-training-gallery.png", "Turf, ropes and conditioning"],
-              ["Accessory Wall", "/images/gallery/accessories-wall-gallery.png", "Everyday essentials organized"],
-            ].map(([label, image, text], index) => (
+            {galleryItems.slice(0, 6).map((item, index) => (
               <Link
-                href="/categories"
-                key={label}
-                className={`gallery-lens__card group gallery-lens__card--${index}`}
+                href={item.href}
+                key={`${item.title}-${index}`}
+                className={`gallery-lens__card group gallery-lens__card--${index % 6}`}
                 style={{ animationDelay: `${index * 120}ms` }}
               >
                 <Image
-                  src={image}
-                  alt={`${label} at Span Fitness Equipments`}
+                  src={item.image}
+                  alt={`${item.title} at Span Fitness Equipments`}
                   fill
                   sizes={index === 0 ? "(min-width: 1024px) 58vw, 100vw" : "(min-width: 1024px) 22vw, 50vw"}
                   className="object-cover transition duration-700 group-hover:scale-105"
@@ -561,8 +593,8 @@ export default function HomeClient() {
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
                 <div className="gallery-lens__shine" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-[10px] font-black uppercase tracking-[.2em] text-coral">{text}</p>
-                  <h3 className="mt-1 font-display text-2xl font-black">{label}</h3>
+                  <p className="text-[10px] font-black uppercase tracking-[.2em] text-coral">{item.description}</p>
+                  <h3 className="mt-1 font-display text-2xl font-black">{item.title}</h3>
                 </div>
               </Link>
             ))}
@@ -703,22 +735,16 @@ export default function HomeClient() {
           <div className="brand-board__stack">
             <div className="brand-board__rail brand-board__rail--left" aria-hidden="true" />
             <div className="brand-board__rail brand-board__rail--right" aria-hidden="true" />
-            {[
-              { name: "WELCARE", sub: "Since 1996", tone: "welcare" },
-              { name: "HERCULES", sub: "FITNESS", tone: "hercules" },
-              { name: "Reebok", sub: "Training", tone: "reebok" },
-              { name: "FIRM", sub: "Strength", tone: "firm" },
-              { name: "ACCUNIQ", sub: "Performance", tone: "accuniq" },
-            ].map((item, index) => (
+            {brands.slice(0, 5).map((item, index) => (
               <Link
                 href="#brands"
-                key={item.name}
-                className={`brand-board__word brand-board__word--${item.tone}`}
+                key={item.slug}
+                className={`brand-board__word brand-board__word--${brandTone(item.slug)}`}
                 style={{ animationDelay: `${index * 180}ms` }}
               >
                 <span className="brand-board__pulse" aria-hidden="true" />
                 <span className="brand-board__name">{item.name}</span>
-                <span className="brand-board__sub">{item.sub}</span>
+                <span className="brand-board__sub">{item.specialties[0] || "Fitness"}</span>
               </Link>
             ))}
           </div>

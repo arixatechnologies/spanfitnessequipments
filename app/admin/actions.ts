@@ -4,12 +4,30 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAdminDataClient } from "@/lib/admin-runtime";
 import { signInEnvAdmin, signOutEnvAdmin, validateEnvAdminCredentials } from "@/lib/admin-session";
-import { deleteLocalRow, insertLocalRow, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
+import { deleteLocalRow, getLocalRow, insertLocalRow, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { blogPostSchema, loginSchema } from "@/lib/validators";
 
 const allowedTables = new Set(["products","product_categories","brands","accessories","offers","gallery_items","blog_posts","blog_categories","blog_tags","faqs","testimonials","contact_leads","media_assets","site_settings","seo_settings"]);
+
+function revalidatePublicContent(table: string, values: Record<string, unknown> = {}) {
+  const paths = new Set(["/", "/sitemap.xml", "/llms.txt"]);
+  const slug = String(values.slug || "");
+
+  if (["products", "product_categories", "brands", "gallery_items"].includes(table)) paths.add("/categories");
+  if (["products", "accessories"].includes(table)) paths.add("/accessories");
+  if (table === "products") paths.add("/new-arrivals");
+  if (table === "offers") paths.add("/offers");
+  if (table === "brands") paths.add("/about");
+  if (table === "blog_posts") paths.add("/blog");
+
+  if (table === "products" && slug) paths.add(`/products/${slug}`);
+  if (table === "product_categories" && slug) paths.add(`/categories/${slug}`);
+  if (table === "blog_posts" && slug) paths.add(`/blog/${slug}`);
+
+  for (const path of paths) revalidatePath(path);
+}
 
 export async function loginAction(_: { error?: string }, formData: FormData) {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
@@ -37,11 +55,15 @@ export async function deleteRecord(table: string, id: string, path: string) {
   if (!allowedTables.has(table)) throw new Error("Unsupported table.");
   const supabase = await getAdminDataClient();
   if (!supabase) {
+    const existing = await getLocalRow(table, id);
     await deleteLocalRow(table, id);
+    revalidatePublicContent(table, existing || { id });
     revalidatePath(path);
     redirect(path);
   }
+  const existing = await supabase.from(table).select("id,slug").eq("id", id).maybeSingle();
   await supabase.from(table).delete().eq("id", id);
+  revalidatePublicContent(table, existing.data || { id });
   revalidatePath(path);
   redirect(path);
 }
@@ -52,12 +74,16 @@ export async function togglePublished(table: string, id: string, currentStatus: 
   if (!publishableTables.has(table)) throw new Error("This record does not support publishing.");
   const supabase = await getAdminDataClient();
   if (!supabase) {
+    const existing = await getLocalRow(table, id);
     await updateLocalRow(table, id, { status: currentStatus === "published" ? "draft" : "published" });
+    revalidatePublicContent(table, existing || { id });
     revalidatePath(path);
     redirect(path);
   }
+  const existing = await supabase.from(table).select("id,slug").eq("id", id).maybeSingle();
   const { error } = await supabase.from(table).update({ status: currentStatus === "published" ? "draft" : "published" }).eq("id", id);
   if (error) throw new Error(error.message);
+  revalidatePublicContent(table, existing.data || { id });
   revalidatePath(path);
   redirect(path);
 }
@@ -92,12 +118,14 @@ export async function saveBlogPost(formData: FormData) {
   if (!supabase) {
     if (id) await updateLocalRow("blog_posts", id, values);
     else await insertLocalRow("blog_posts", values);
+    revalidatePublicContent("blog_posts", values);
     revalidatePath("/admin/blog");
     revalidatePath("/blog");
     redirect("/admin/blog");
   }
   const result = id ? await supabase.from("blog_posts").update(values).eq("id", id) : await supabase.from("blog_posts").insert(values);
   if (result.error) throw new Error(result.error.message);
+  revalidatePublicContent("blog_posts", values);
   revalidatePath("/blog");
   redirect("/admin/blog");
 }
@@ -122,6 +150,7 @@ export async function saveProduct(formData: FormData) {
   if (!supabase) {
     if (id) await updateLocalRow("products", id, values);
     else await insertLocalRow("products", values);
+    revalidatePublicContent("products", values);
     revalidatePath("/admin/products");
     revalidatePath(`/products/${slug}`);
     redirect("/admin/products");
@@ -130,6 +159,7 @@ export async function saveProduct(formData: FormData) {
     ? await supabase.from("products").update(values).eq("id", id)
     : await supabase.from("products").insert(values);
   if (error) throw new Error(error.message);
+  revalidatePublicContent("products", values);
   revalidatePath("/admin/products");
   revalidatePath(`/products/${slug}`);
   redirect("/admin/products");
@@ -163,11 +193,13 @@ export async function createSimpleRecord(table: string, path: string, formData: 
   const supabase = await getAdminDataClient();
   if (!supabase) {
     await insertLocalRow(table, payload);
+    revalidatePublicContent(table, payload);
     revalidatePath(path);
     redirect(path);
   }
   const { error } = await supabase.from(table).insert(payload);
   if (error) throw new Error(error.message);
+  revalidatePublicContent(table, payload);
   revalidatePath(path);
   redirect(path);
 }
@@ -202,11 +234,13 @@ export async function updateSimpleRecord(table: string, id: string, path: string
   const supabase = await getAdminDataClient();
   if (!supabase) {
     await updateLocalRow(table, id, payload);
+    revalidatePublicContent(table, payload);
     revalidatePath(path);
     redirect(path);
   }
   const { error } = await supabase.from(table).update(payload).eq("id", id);
   if (error) throw new Error(error.message);
+  revalidatePublicContent(table, payload);
   revalidatePath(path);
   redirect(path);
 }

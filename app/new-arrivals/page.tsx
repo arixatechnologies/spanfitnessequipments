@@ -1,17 +1,20 @@
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { getPublicProducts } from "@/lib/public-content";
 import { getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, itemListSchema, JsonLd, webPageSchema } from "@/lib/schema";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { CtaBand, PageHero } from "../components/site";
-import { images, products, whatsappUrl } from "../data";
+import { images, whatsappUrl } from "../data";
 
 const title = "New Fitness Equipment Arrivals";
 const description = "Discover new treadmills, ellipticals, exercise bikes, multi gyms, benches and fitness accessories at Span Fitness Equipments in Visakhapatnam.";
+export const dynamic = "force-dynamic";
 export function generateMetadata() { return getPageMetadata({ title, description, path: "/new-arrivals", image: images.treadmill }); }
 
-export default function NewArrivalsPage() {
+export default async function NewArrivalsPage() {
+  const products = await getPublicProducts();
   const arrivals = products.filter(item => item.isNew);
   const crumbs = [{ name: "Home", path: "/" }, { name: "New Arrivals", path: "/new-arrivals" }];
 

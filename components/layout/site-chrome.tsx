@@ -3,9 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Footer, Header } from "@/app/components/site";
+import type { Category } from "@/app/data";
 import { FloatingActions } from "./floating-actions";
 
-export function SiteChrome({ children }: { children: React.ReactNode }) {
+export function SiteChrome({ children, footerCategories }: { children: React.ReactNode; footerCategories?: Category[] }) {
   const pathname = usePathname();
   const [transitioning, setTransitioning] = useState(false);
   const timeoutRef = useRef<number | null>(null);
@@ -69,7 +70,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <Header />
       {transitioning && <PageTransitionLoader />}
       <main>{children}</main>
-      <Footer />
+      <Footer categories={footerCategories} />
       <FloatingActions />
     </>
   );

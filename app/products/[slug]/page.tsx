@@ -5,24 +5,28 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FaqSection } from "@/components/seo/faq-section";
 import { LeadForm } from "@/components/forms/lead-form";
+import { getPublicBrands, getPublicCategories, getPublicProductBySlug, getPublicProducts } from "@/lib/public-content";
 import { absoluteUrl, getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, faqSchema, JsonLd, webPageSchema } from "@/lib/schema";
 import { siteConfig } from "@/src/config/site";
 import { ProductCard } from "../../components/cards";
 import { ButtonLink, SectionTitle } from "../../components/site";
-import { business, findBrand, findCategory, findProduct, products, whatsappUrl } from "../../data";
+import { business, whatsappUrl } from "../../data";
 
-export function generateStaticParams() { return products.map(({ slug }) => ({ slug })); }
+export const dynamic = "force-dynamic";
+
+export async function generateStaticParams() { return (await getPublicProducts()).map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const item = findProduct((await params).slug);
+  const item = await getPublicProductBySlug((await params).slug);
   return item ? getPageMetadata({ title: item.name, description: `${item.short} Enquire with Span Fitness Equipments in Visakhapatnam for specifications and availability.`, path: `/products/${item.slug}`, image: item.image }) : {};
 }
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const product = findProduct((await params).slug);
+  const product = await getPublicProductBySlug((await params).slug);
   if (!product) notFound();
-  const category = findCategory(product.category);
-  const brand = findBrand(product.brand);
+  const [categories, brands, products] = await Promise.all([getPublicCategories(), getPublicBrands(), getPublicProducts()]);
+  const category = categories.find((item) => item.slug === product.category);
+  const brand = brands.find((item) => item.slug === product.brand);
   const related = products.filter(item => item.slug !== product.slug && (item.category === product.category || item.brand === product.brand)).slice(0, 3);
   const crumbs = [{ name: "Home", path: "/" }, { name: "Categories", path: "/categories" }, ...(category ? [{ name: category.name, path: `/categories/${category.slug}` }] : []), { name: product.name, path: `/products/${product.slug}` }];
   const faqs = [

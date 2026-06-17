@@ -8,6 +8,8 @@ import { absoluteUrl, getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, JsonLd } from "@/lib/schema";
 import { CtaBand } from "@/app/components/site";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   return (await getBlogPosts()).map(({ slug }) => ({ slug }));
 }

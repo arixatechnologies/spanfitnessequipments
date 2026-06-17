@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ArrowRight, BadgeCheck, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
+import type { Category } from "../data";
 import { business, categories, navItems, whatsappUrl } from "../data";
 
 export function ButtonLink({ href, children, secondary = false }: { href: string; children: React.ReactNode; secondary?: boolean }) {
@@ -45,7 +46,7 @@ export function Header() {
   );
 }
 
-export function Footer() {
+export function Footer({ categories: footerCategories = categories }: { categories?: Category[] }) {
   const path = usePathname();
   if (path.startsWith("/admin")) return null;
   return (
@@ -66,7 +67,7 @@ export function Footer() {
         <div className="site-footer__panel">
           <h3>Categories</h3>
           <div className="site-footer__links mt-4 grid gap-2">
-            {categories.slice(0, 5).map((item) => <Link key={item.slug} href={`/categories/${item.slug}`}>{item.name}<span className="site-footer__dot" /></Link>)}
+            {footerCategories.slice(0, 5).map((item) => <Link key={item.slug} href={`/categories/${item.slug}`}>{item.name}<span className="site-footer__dot" /></Link>)}
             <Link href="/products/multi-play-station-equipment">Multi Play Station<span className="site-footer__dot" /></Link>
           </div>
         </div>

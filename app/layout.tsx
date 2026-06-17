@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SiteChrome } from "@/components/layout/site-chrome";
+import { getPublicCategories } from "@/lib/public-content";
 import { JsonLd, organizationSchema, websiteSchema } from "@/lib/schema";
 import { siteConfig } from "@/src/config/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -49,16 +52,18 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest"
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const footerCategories = await getPublicCategories();
+
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body className="font-body antialiased">
         <JsonLd data={[organizationSchema, websiteSchema]} />
-        <SiteChrome>{children}</SiteChrome>
+        <SiteChrome footerCategories={footerCategories}>{children}</SiteChrome>
       </body>
     </html>
   );
