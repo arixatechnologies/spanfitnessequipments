@@ -5,7 +5,13 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   const supabase = await createClient();
   if (!supabase) {
     const { listLocalRows } = await import("./admin-store");
-    const localPosts = (await listLocalRows("blog_posts"))
+    const [posts, categories] = await Promise.all([
+      listLocalRows("blog_posts"),
+      listLocalRows("blog_categories")
+    ]);
+    const categoryNameById = new Map(categories.map((item) => [String(item.id), String(item.name || item.title || "Fitness Guides")]));
+    const categoryNameBySlug = new Map(categories.map((item) => [String(item.slug || item.id), String(item.name || item.title || "Fitness Guides")]));
+    const localPosts = posts
       .filter((post) => post.status === "published")
       .map((post) => ({
         id: post.id,
@@ -13,7 +19,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         slug: String(post.slug || ""),
         excerpt: String(post.excerpt || ""),
         content: String(post.content || ""),
-        category: "Fitness Guides",
+        category: categoryNameById.get(String(post.category_id || "")) || categoryNameBySlug.get(String(post.category_id || "")) || "Fitness Guides",
         author: String(post.author || "Span Fitness Equipments"),
         featuredImage: String(post.featured_image || "/images/blog/gym-equipment-guide.png"),
         featuredImageAlt: String(post.featured_image_alt || post.title || "Span Fitness blog"),

@@ -17,11 +17,11 @@ export const loginSchema = z.object({
 });
 
 export const blogPostSchema = z.object({
-  title: z.string().trim().min(5).max(180),
-  slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  excerpt: z.string().trim().min(20).max(500),
-  content: z.string().trim().min(100),
+  title: z.string().trim().min(5, "Enter a title with at least 5 characters.").max(180, "Keep the title within 180 characters."),
+  slug: z.string().trim().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use only lowercase letters, numbers and hyphens."),
+  excerpt: z.string().trim().min(20, "Enter an excerpt with at least 20 characters.").max(500, "Keep the excerpt within 500 characters."),
+  content: z.string().trim().min(100, "Enter blog content with at least 100 characters."),
   status: z.enum(["draft", "published"]),
-  metaTitle: z.string().trim().max(70).optional(),
-  metaDescription: z.string().trim().max(170).optional()
+  metaTitle: z.string().trim().max(70, "Keep the SEO title within 70 characters.").optional(),
+  metaDescription: z.string().trim().max(170, "Keep the SEO description within 170 characters.").optional()
 });

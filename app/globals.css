@@ -820,6 +820,22 @@ body {
   padding: 0.75rem;
 }
 
+.admin-search-field {
+  position: relative;
+  min-width: min(100%, 18rem);
+  flex: 1 1 18rem;
+}
+
+.admin-search-field__icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  z-index: 1;
+  color: rgba(255, 247, 243, 0.48);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
 .admin-input {
   width: 100%;
   height: 2.75rem;
@@ -830,6 +846,14 @@ body {
   color: #fff7f3;
   outline: none;
   transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.admin-search-input {
+  padding-left: 3.25rem;
+}
+
+.admin-search-input::placeholder {
+  color: rgba(255, 247, 243, 0.38);
 }
 
 .admin-input:focus {

@@ -9,7 +9,6 @@ import {
   CircleDot,
   CircleHelp,
   Dumbbell,
-  FolderOpen,
   ImagePlus,
   Images,
   Inbox,
@@ -21,7 +20,6 @@ import {
   SearchCheck,
   Settings,
   Sparkles,
-  Tag,
   Tags
 } from "lucide-react";
 import { logoutAction } from "@/app/admin/actions";
@@ -35,8 +33,6 @@ const sectionIcons: Record<string, typeof LayoutDashboard> = {
   "/admin/offers": BadgePercent,
   "/admin/gallery": Images,
   "/admin/blog": Newspaper,
-  "/admin/blog/categories": FolderOpen,
-  "/admin/blog/tags": Tag,
   "/admin/faqs": CircleHelp,
   "/admin/testimonials": MessageSquareQuote,
   "/admin/leads": Inbox,

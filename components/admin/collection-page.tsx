@@ -17,7 +17,7 @@ type Row = AdminRow & {
   description?: string;
 };
 
-const quickCreateTables = ["product_categories", "brands", "accessories", "offers", "gallery_items", "blog_categories", "blog_tags", "faqs", "testimonials", "site_settings"];
+const quickCreateTables = ["accessories", "offers", "gallery_items", "blog_categories", "blog_tags", "faqs", "testimonials", "site_settings"];
 const inlineEditTables = [...quickCreateTables, "site_settings", "seo_settings"];
 const publishableTables = ["products", "product_categories", "brands", "accessories", "offers", "gallery_items", "blog_posts", "blog_categories", "faqs", "testimonials"];
 
@@ -78,9 +78,9 @@ export async function CollectionPage({ title, table, path, search = "", status =
       )}
 
       <form className="admin-toolbar mt-8">
-        <label className="relative min-w-64 flex-1">
-          <Search className="absolute left-3 top-3 size-5 text-white/35" />
-          <input name="q" defaultValue={search} placeholder={`Search ${title.toLowerCase()}`} className="admin-input pl-10" />
+        <label className="admin-search-field">
+          <Search className="admin-search-field__icon size-5" />
+          <input name="q" defaultValue={search} placeholder={`Search ${title.toLowerCase()}`} className="admin-input admin-search-input" />
         </label>
         {publishable && (
           <select name="status" defaultValue={status} aria-label="Filter by status" className="admin-input">
@@ -147,6 +147,8 @@ export async function CollectionPage({ title, table, path, search = "", status =
                 <td className="p-4">
                   <div className="flex justify-end gap-2">
                     {canInlineEdit && <button form={`edit-${row.id}`} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold">Save</button>}
+                    {table === "product_categories" && <Link href={`/admin/categories/${row.id}/edit`} prefetch={false} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold">Edit</Link>}
+                    {table === "brands" && <Link href={`/admin/brands/${row.id}/edit`} prefetch={false} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold">Edit</Link>}
                     {table === "blog_posts" && <Link href={`/admin/blog/${row.id}/edit`} prefetch={false} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold">Edit</Link>}
                     {table === "products" && <Link href={`/admin/products/${row.id}/edit`} prefetch={false} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold">Edit</Link>}
                     {publishable && row.status && (

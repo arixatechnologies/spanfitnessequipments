@@ -105,11 +105,13 @@ function categoryFromRow(row: AdminRow): Category {
   };
 }
 
-function productFromRow(row: AdminRow): Product {
+function productFromRow(row: AdminRow, categorySlugById = new Map<string, string>(), brandSlugById = new Map<string, string>()): Product {
   const slug = text(row.slug || row.id);
   const fallback = fallbackProducts.find((item) => item.slug === slug);
-  const category = text(row.category_id || row.category, fallback?.category || "");
-  const brand = text(row.brand_id || row.brand, fallback?.brand || "span-fitness");
+  const rawCategory = text(row.category_id || row.category, fallback?.category || "");
+  const rawBrand = text(row.brand_id || row.brand, fallback?.brand || "span-fitness");
+  const category = categorySlugById.get(rawCategory) || rawCategory;
+  const brand = brandSlugById.get(rawBrand) || rawBrand;
   const short = text(row.short_description || row.short || row.description, fallback?.short || "Fitness equipment available on enquiry.");
   const description = text(row.full_description || row.description, fallback?.description || short);
 
@@ -174,7 +176,14 @@ export async function getPublicCategoryBySlug(slug: string) {
 }
 
 export async function getPublicProducts() {
-  const items = (await rows("products")).filter(isPublished).map(productFromRow);
+  const [productRows, categoryRows, brandRows] = await Promise.all([
+    rows("products"),
+    rows("product_categories"),
+    rows("brands"),
+  ]);
+  const categorySlugById = new Map(categoryRows.map((item) => [text(item.id), text(item.slug || item.id)]));
+  const brandSlugById = new Map(brandRows.map((item) => [text(item.id), text(item.slug || item.id)]));
+  const items = productRows.filter(isPublished).map((item) => productFromRow(item, categorySlugById, brandSlugById));
   return knownOrder(items, fallbackProducts);
 }
 

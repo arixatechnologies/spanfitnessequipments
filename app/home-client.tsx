@@ -735,7 +735,7 @@ export default function HomeClient({
           <div className="brand-board__stack">
             <div className="brand-board__rail brand-board__rail--left" aria-hidden="true" />
             <div className="brand-board__rail brand-board__rail--right" aria-hidden="true" />
-            {brands.slice(0, 5).map((item, index) => (
+            {brands.map((item, index) => (
               <Link
                 href="#brands"
                 key={item.slug}

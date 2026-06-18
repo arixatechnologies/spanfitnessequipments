@@ -4,8 +4,8 @@ import { requireAdmin } from "@/lib/auth";
 
 const sections: Record<string, { title: string; table: string; createHref?: string }> = {
   products: { title: "Products", table: "products", createHref: "/admin/products/new" },
-  categories: { title: "Product Categories", table: "product_categories" },
-  brands: { title: "Brands", table: "brands" },
+  categories: { title: "Product Categories", table: "product_categories", createHref: "/admin/categories/new" },
+  brands: { title: "Brands", table: "brands", createHref: "/admin/brands/new" },
   accessories: { title: "Accessories", table: "accessories" },
   offers: { title: "Offers", table: "offers" },
   gallery: { title: "Gallery", table: "gallery_items" },

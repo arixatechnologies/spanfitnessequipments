@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAdminDataClient } from "@/lib/admin-runtime";
 import { signInEnvAdmin, signOutEnvAdmin, validateEnvAdminCredentials } from "@/lib/admin-session";
-import { deleteLocalRow, getLocalRow, insertLocalRow, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
+import { deleteLocalRow, getLocalRow, insertLocalRow, listLocalRows, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { blogPostSchema, loginSchema } from "@/lib/validators";
@@ -104,27 +104,127 @@ export async function updateLeadStatus(id: string, path: string, formData: FormD
   redirect(path);
 }
 
+type BlogPostFormState = {
+  error?: string;
+};
+
+function blogPostIssueMessage(issues: { path: PropertyKey[]; message: string }[]) {
+  const issue = issues[0];
+  const field = String(issue?.path?.[0] || "");
+  const labels: Record<string, string> = {
+    title: "Title",
+    slug: "Slug",
+    excerpt: "Excerpt",
+    content: "Content",
+    categoryId: "Blog category",
+    metaTitle: "SEO title",
+    metaDescription: "SEO description",
+  };
+
+  return issue ? `${labels[field] || "Blog post"}: ${issue.message}` : "Please check the blog post fields.";
+}
+
+function blogTagSlug(value: string) {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
+function newBlogTagNames(value: unknown) {
+  const seen = new Set<string>();
+  return String(value || "")
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter((item) => {
+      const slug = blogTagSlug(item);
+      if (!slug || seen.has(slug)) return false;
+      seen.add(slug);
+      return true;
+    });
+}
+
+export async function saveBlogPostWithState(_: BlogPostFormState, formData: FormData): Promise<BlogPostFormState> {
+  await requireAdmin();
+  const parsed = blogPostSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: blogPostIssueMessage(parsed.error.issues) };
+  await saveBlogPost(formData);
+  return {};
+}
+
 export async function saveBlogPost(formData: FormData) {
   await requireAdmin();
   const parsed = blogPostSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message || "Invalid blog post.");
+  if (!parsed.success) throw new Error(blogPostIssueMessage(parsed.error.issues));
   const id = String(formData.get("id") || "");
+  const categoryId = String(formData.get("categoryId") || "") || null;
+  const tagNames = newBlogTagNames(formData.get("tagNames"));
+  const metaTitle = (parsed.data.metaTitle || parsed.data.title).slice(0, 70);
+  const metaDescription = (parsed.data.metaDescription || parsed.data.excerpt).slice(0, 170);
   const values = {
     title: parsed.data.title, slug: parsed.data.slug, excerpt: parsed.data.excerpt, content: parsed.data.content, status: parsed.data.status,
-    meta_title: parsed.data.metaTitle || parsed.data.title, meta_description: parsed.data.metaDescription || parsed.data.excerpt,
+    category_id: categoryId,
+    meta_title: metaTitle, meta_description: metaDescription,
     author: "Span Fitness Equipments", published_at: parsed.data.status === "published" ? new Date().toISOString() : null
   };
   const supabase = await getAdminDataClient();
   if (!supabase) {
-    if (id) await updateLocalRow("blog_posts", id, values);
-    else await insertLocalRow("blog_posts", values);
+    const localTags = await listLocalRows("blog_tags");
+    const localTagsBySlug = new Map(localTags.map((item) => [String(item.slug || blogTagSlug(String(item.name || ""))), item]));
+    const localTagIds: string[] = [];
+
+    for (const name of tagNames) {
+      const slug = blogTagSlug(name);
+      const existing = localTagsBySlug.get(slug);
+      if (existing) {
+        localTagIds.push(existing.id);
+      } else {
+        const created = await insertLocalRow("blog_tags", { name, slug, description: "" });
+        localTagsBySlug.set(slug, created);
+        localTagIds.push(created.id);
+      }
+    }
+
+    const localValues = { ...values, tag_ids: localTagIds };
+    if (id) await updateLocalRow("blog_posts", id, localValues);
+    else await insertLocalRow("blog_posts", localValues);
     revalidatePublicContent("blog_posts", values);
     revalidatePath("/admin/blog");
     revalidatePath("/blog");
     redirect("/admin/blog");
   }
-  const result = id ? await supabase.from("blog_posts").update(values).eq("id", id) : await supabase.from("blog_posts").insert(values);
-  if (result.error) throw new Error(result.error.message);
+  let postId = id;
+  if (id) {
+    const result = await supabase.from("blog_posts").update(values).eq("id", id);
+    if (result.error) throw new Error(result.error.message);
+  } else {
+    const result = await supabase.from("blog_posts").insert(values).select("id").single();
+    if (result.error) throw new Error(result.error.message);
+    postId = String(result.data.id);
+  }
+
+  const finalTagIds: string[] = [];
+  for (const name of tagNames) {
+    const slug = blogTagSlug(name);
+    const tagResult = await supabase
+      .from("blog_tags")
+      .upsert({ name, slug }, { onConflict: "slug" })
+      .select("id")
+      .single();
+    if (tagResult.error) throw new Error(tagResult.error.message);
+    finalTagIds.push(String(tagResult.data.id));
+  }
+
+  const deleteTags = await supabase.from("blog_post_tags").delete().eq("post_id", postId);
+  if (deleteTags.error) throw new Error(deleteTags.error.message);
+  if (finalTagIds.length) {
+    const insertTags = await supabase.from("blog_post_tags").insert(finalTagIds.map((tagId) => ({ post_id: postId, tag_id: tagId })));
+    if (insertTags.error) throw new Error(insertTags.error.message);
+  }
+
   revalidatePublicContent("blog_posts", values);
   revalidatePath("/blog");
   redirect("/admin/blog");
@@ -163,6 +263,135 @@ export async function saveProduct(formData: FormData) {
   revalidatePath("/admin/products");
   revalidatePath(`/products/${slug}`);
   redirect("/admin/products");
+}
+
+export async function saveCategory(formData: FormData) {
+  await requireAdmin();
+  const name = String(formData.get("name") || "").trim();
+  const slug = String(formData.get("slug") || "").trim();
+  if (name.length < 2 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("A valid category heading and slug are required.");
+
+  const id = String(formData.get("id") || "");
+  const supabase = await getAdminDataClient();
+  const existing = id
+    ? supabase
+      ? (await supabase.from("product_categories").select("id,slug").eq("id", id).maybeSingle()).data
+      : await getLocalRow("product_categories", id)
+    : null;
+  let imageUrl = String(formData.get("imageUrl") || "").trim();
+  const imageFile = formData.get("imageFile");
+
+  if (imageFile instanceof File && imageFile.size > 0) {
+    const allowed = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
+    if (!allowed.includes(imageFile.type) || imageFile.size > 5 * 1024 * 1024) throw new Error("Upload a JPG, PNG, WebP or SVG image up to 5 MB.");
+    const safeName = imageFile.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+    const storagePath = `categories/${crypto.randomUUID()}-${safeName}`;
+
+    if (supabase) {
+      const upload = await supabase.storage.from("media").upload(storagePath, imageFile, { contentType: imageFile.type, upsert: false });
+      if (upload.error) throw new Error(upload.error.message);
+      const { data } = supabase.storage.from("media").getPublicUrl(storagePath);
+      imageUrl = data.publicUrl;
+    } else {
+      const publicPath = `/uploads/admin/${storagePath}`;
+      const { mkdir, writeFile } = await import("fs/promises");
+      const path = await import("path");
+      const target = path.join(process.cwd(), "public", "uploads", "admin", storagePath);
+      await mkdir(path.dirname(target), { recursive: true });
+      await writeFile(target, Buffer.from(await imageFile.arrayBuffer()));
+      imageUrl = publicPath;
+      await insertLocalRow("media_assets", { file_name: imageFile.name, storage_path: storagePath, public_url: publicPath, mime_type: imageFile.type, size_bytes: imageFile.size, alt_text: String(formData.get("imageAlt") || name) });
+    }
+  }
+
+  const features = String(formData.get("features") || "")
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const description = String(formData.get("description") || "").trim();
+  const values = {
+    name,
+    slug,
+    tagline: String(formData.get("tagline") || "").trim(),
+    description,
+    image_url: imageUrl,
+    image_alt: String(formData.get("imageAlt") || name).trim(),
+    features,
+    status: String(formData.get("status") || "draft"),
+    featured: formData.get("featured") === "on",
+    sort_order: Number(formData.get("sortOrder") || 0),
+    seo_title: String(formData.get("seoTitle") || name).trim(),
+    seo_description: String(formData.get("seoDescription") || description).trim()
+  };
+
+  if (!supabase) {
+    if (id) await updateLocalRow("product_categories", id, values);
+    else await insertLocalRow("product_categories", values);
+    if (existing) revalidatePublicContent("product_categories", existing);
+    revalidatePublicContent("product_categories", values);
+    revalidatePath("/admin/categories");
+    redirect("/admin/categories");
+  }
+
+  const { error } = id
+    ? await supabase.from("product_categories").update(values).eq("id", id)
+    : await supabase.from("product_categories").insert(values);
+  if (error) throw new Error(error.message);
+  if (existing) revalidatePublicContent("product_categories", existing);
+  revalidatePublicContent("product_categories", values);
+  revalidatePath("/admin/categories");
+  redirect("/admin/categories");
+}
+
+export async function saveBrand(formData: FormData) {
+  await requireAdmin();
+  const name = String(formData.get("name") || "").trim();
+  const slug = String(formData.get("slug") || "").trim();
+  if (name.length < 2 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("A valid brand name and slug are required.");
+
+  const id = String(formData.get("id") || "");
+  const specialties = String(formData.get("specialties") || "")
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const description = String(formData.get("description") || "").trim();
+  const values = {
+    name,
+    slug,
+    description,
+    logo_url: String(formData.get("logoUrl") || "").trim(),
+    image_alt: String(formData.get("imageAlt") || name).trim(),
+    specialties,
+    status: String(formData.get("status") || "draft"),
+    featured: formData.get("featured") === "on",
+    sort_order: Number(formData.get("sortOrder") || 0),
+    seo_title: String(formData.get("seoTitle") || name).trim(),
+    seo_description: String(formData.get("seoDescription") || description).trim()
+  };
+  const supabase = await getAdminDataClient();
+  const existing = id
+    ? supabase
+      ? (await supabase.from("brands").select("id,slug").eq("id", id).maybeSingle()).data
+      : await getLocalRow("brands", id)
+    : null;
+
+  if (!supabase) {
+    if (id) await updateLocalRow("brands", id, values);
+    else await insertLocalRow("brands", values);
+    if (existing) revalidatePublicContent("brands", existing);
+    revalidatePublicContent("brands", values);
+    revalidatePath("/admin/brands");
+    redirect("/admin/brands");
+  }
+
+  const { error } = id
+    ? await supabase.from("brands").update(values).eq("id", id)
+    : await supabase.from("brands").insert(values);
+  if (error) throw new Error(error.message);
+  if (existing) revalidatePublicContent("brands", existing);
+  revalidatePublicContent("brands", values);
+  revalidatePath("/admin/brands");
+  redirect("/admin/brands");
 }
 
 export async function createSimpleRecord(table: string, path: string, formData: FormData) {

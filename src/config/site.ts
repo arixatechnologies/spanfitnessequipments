@@ -50,8 +50,6 @@ export const adminSections = [
   ["Offers", "/admin/offers"],
   ["Gallery", "/admin/gallery"],
   ["Blog Posts", "/admin/blog"],
-  ["Blog Categories", "/admin/blog/categories"],
-  ["Blog Tags", "/admin/blog/tags"],
   ["FAQs", "/admin/faqs"],
   ["Testimonials", "/admin/testimonials"],
   ["Leads", "/admin/leads"],
