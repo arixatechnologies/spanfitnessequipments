@@ -16,6 +16,7 @@ type AdminDatabase = Record<string, AdminRow[]>;
 
 const dataDir = path.join(process.cwd(), ".data");
 const dataFile = path.join(dataDir, "admin-store.json");
+let memoryDatabase: AdminDatabase | null = null;
 
 const tableNames = [
   "products",
@@ -199,27 +200,30 @@ function migrateSeededRows(database: AdminDatabase) {
   return changed;
 }
 
-async function ensureDatabase() {
-  await mkdir(dataDir, { recursive: true });
+async function readDatabase(): Promise<AdminDatabase> {
   try {
-    await readFile(dataFile, "utf8");
+    const raw = await readFile(dataFile, "utf8");
+    const parsed = JSON.parse(raw.replace(/^\uFEFF/, "")) as AdminDatabase;
+    for (const table of tableNames) parsed[table] ||= [];
+    if (migrateSeededRows(parsed)) await writeDatabase(parsed);
+    memoryDatabase = parsed;
+    return parsed;
   } catch {
-    await writeDatabase(defaultDatabase());
+    memoryDatabase ||= defaultDatabase();
+    for (const table of tableNames) memoryDatabase[table] ||= [];
+    return memoryDatabase;
   }
 }
 
-async function readDatabase(): Promise<AdminDatabase> {
-  await ensureDatabase();
-  const raw = await readFile(dataFile, "utf8");
-  const parsed = JSON.parse(raw) as AdminDatabase;
-  for (const table of tableNames) parsed[table] ||= [];
-  if (migrateSeededRows(parsed)) await writeDatabase(parsed);
-  return parsed;
-}
-
 async function writeDatabase(database: AdminDatabase) {
-  await mkdir(dataDir, { recursive: true });
-  await writeFile(dataFile, `${JSON.stringify(database, null, 2)}\n`, "utf8");
+  memoryDatabase = database;
+  try {
+    await mkdir(dataDir, { recursive: true });
+    await writeFile(dataFile, `${JSON.stringify(database, null, 2)}\n`, "utf8");
+  } catch {
+    // Vercel/serverless filesystems are read-only. Keep local fallback data in memory
+    // so public pages render instead of failing when Supabase is not configured.
+  }
 }
 
 function getSearchField(table: string) {
