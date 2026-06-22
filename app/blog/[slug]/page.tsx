@@ -8,6 +8,29 @@ import { absoluteUrl, getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, JsonLd } from "@/lib/schema";
 import { CtaBand } from "@/app/components/site";
 
+const blogFaqFillers = [
+  {
+    question: "Can Span Fitness help me choose equipment after reading this guide?",
+    answer:
+      "Yes. Share your space, goals and budget so Span Fitness Equipments can suggest practical cardio, strength, accessory or setup options.",
+  },
+  {
+    question: "Can I request a quotation for the equipment mentioned?",
+    answer:
+      "Yes. Use the contact page or WhatsApp enquiry option with the equipment names, quantity, city and intended usage.",
+  },
+  {
+    question: "Do you support both home gym and commercial gym requirements?",
+    answer:
+      "Yes. Span Fitness Equipments supports home gyms, commercial gyms, studios, apartments, hotels, schools and corporate wellness spaces.",
+  },
+  {
+    question: "Can the team suggest alternatives if a product is unavailable?",
+    answer:
+      "Yes. Availability may vary, so the team can suggest comparable products or setup combinations based on your requirement.",
+  },
+];
+
 export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
@@ -44,6 +67,7 @@ export default async function BlogDetailPage({
     .filter((item) => item.slug !== slug && item.category === post.category)
     .slice(0, 3);
   const words = post.content.trim().split(/\s+/).length;
+  const postFaqs = [...post.faqs, ...blogFaqFillers.filter((faq) => !post.faqs.some((item) => item.question === faq.question))].slice(0, 4);
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -63,11 +87,11 @@ export default async function BlogDetailPage({
     },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
   };
-  const faqSchema = post.faqs.length
+  const faqSchema = postFaqs.length
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: post.faqs.map((faq) => ({
+        mainEntity: postFaqs.map((faq) => ({
           "@type": "Question",
           name: faq.question,
           acceptedAnswer: { "@type": "Answer", text: faq.answer },
@@ -142,13 +166,13 @@ export default async function BlogDetailPage({
                 {paragraph}
               </p>
             ))}
-            {post.faqs.length > 0 && (
+            {postFaqs.length > 0 && (
               <section className="mt-14">
                 <h2 className="font-display text-3xl font-black">
                   Frequently asked questions
                 </h2>
                 <div className="mt-6 grid gap-4">
-                  {post.faqs.map((faq) => (
+                  {postFaqs.map((faq) => (
                     <div
                       key={faq.question}
                       className="rounded-2xl border border-white/10 bg-white/5 p-6"

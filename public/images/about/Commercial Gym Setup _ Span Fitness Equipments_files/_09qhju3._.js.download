@@ -1,0 +1,1734 @@
+(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/app/data.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "brands",
+    ()=>brands,
+    "business",
+    ()=>business,
+    "categories",
+    ()=>categories,
+    "findBrand",
+    ()=>findBrand,
+    "findCategory",
+    ()=>findCategory,
+    "findProduct",
+    ()=>findProduct,
+    "images",
+    ()=>images,
+    "navItems",
+    ()=>navItems,
+    "phoneDisplay",
+    ()=>phoneDisplay,
+    "products",
+    ()=>products,
+    "whatsappUrl",
+    ()=>whatsappUrl
+]);
+const business = {
+    name: "Span Fitness Equipments",
+    owner: "A Senthil Kumar",
+    phone: "9703344483",
+    customerCare: "9980875446",
+    email: "spanfitnessequipments@gmail.com",
+    address: "Door No. 50-81-26, Span Fitness Equipments, Main Road, Seethammapeta Junction, Visakhapatnam - 530016, Andhra Pradesh",
+    experience: "15+ years of fitness equipment guidance",
+    locations: [
+        "Srikakulam",
+        "Vizianagaram",
+        "Visakhapatnam",
+        "Kakinada",
+        "Vijayawada",
+        "Hyderabad",
+        "Ongole",
+        "Nellore",
+        "Cuddapah",
+        "Ananthapuramu"
+    ]
+};
+const phoneDisplay = `${business.phone} / ${business.customerCare}`;
+const images = {
+    hero: "/hero-storefront-new.png",
+    showroom: "/about-showroom.png",
+    treadmill: "/images/new-arrivals/performance-treadmill-x7-new-arrival.png",
+    strength: "/images/new-arrivals/heavy-duty-multi-gym-new-arrival.png",
+    setup: "/images/gallery/premium-commercial-gym-gallery.png",
+    home: "/images/gallery/home-gym-gallery.png",
+    functional: "/images/gallery/functional-training-gallery.png",
+    accessories: "/images/gallery/accessories-wall-gallery.png",
+    dumbbells: "/images/products/rubber-dumbbell-set.png",
+    bike: "/images/products/studio-exercise-bike.png",
+    bench: "/images/products/strength-training-bench.png",
+    gym: "/images/gallery/commercial-gym-showroom.png",
+    rope: "/images/accessories/fitness-accessories-dumbbells.png",
+    resistanceBand: "/images/products/resistance-band-kit.svg",
+    yoga: "/images/accessories/fitness-accessories-dumbbells.png",
+    arrivals: {
+        performanceTreadmill: "/images/new-arrivals/performance-treadmill-x7-new-arrival.png",
+        commercialElliptical: "/images/new-arrivals/commercial-elliptical-pro-new-arrival.png",
+        studioBike: "/images/new-arrivals/studio-exercise-bike-new-arrival.png",
+        multiGym: "/images/new-arrivals/heavy-duty-multi-gym-new-arrival.png",
+        trainingBench: "/images/new-arrivals/adjustable-training-bench-new-arrival.png",
+        dumbbellSet: "/images/new-arrivals/rubber-dumbbell-set-new-arrival.png"
+    }
+};
+const categories = [
+    {
+        slug: "cardio-equipment",
+        name: "Cardio Equipment",
+        tagline: "Build endurance with every session.",
+        description: "Treadmills, exercise bikes, ellipticals and cross trainers selected for smooth performance, dependable construction and daily use.",
+        image: images.treadmill,
+        features: [
+            "Commercial and home-use options",
+            "Modern consoles",
+            "Multiple motor capacities",
+            "Installation guidance"
+        ]
+    },
+    {
+        slug: "strength-equipment",
+        name: "Strength Equipment",
+        tagline: "Engineered for stronger training floors.",
+        description: "Selectorized machines, benches, racks, multi gyms, multi play station equipment and free-weight solutions for complete strength zones.",
+        image: images.strength,
+        features: [
+            "Heavy-duty frames",
+            "Multi play station options",
+            "Space planning support",
+            "Wide exercise variety"
+        ]
+    },
+    {
+        slug: "commercial-gym-setup",
+        name: "Commercial Gym Setup",
+        tagline: "From empty floor to complete fitness destination.",
+        description: "End-to-end equipment planning for gyms, apartments, hotels, institutions and professional training studios.",
+        image: images.setup,
+        features: [
+            "Layout guidance",
+            "Equipment mix planning",
+            "Multiple brand choices",
+            "Delivery and setup coordination"
+        ]
+    },
+    {
+        slug: "home-gym-equipment",
+        name: "Home Gym Equipment",
+        tagline: "Serious workouts, closer to home.",
+        description: "Compact cardio and strength equipment designed to make the most of personal fitness spaces.",
+        image: images.home,
+        features: [
+            "Space-efficient choices",
+            "Easy-to-use equipment",
+            "Solutions for varied budgets",
+            "Personal consultation"
+        ]
+    },
+    {
+        slug: "functional-training",
+        name: "Functional Training",
+        tagline: "Move better. Train without limits.",
+        description: "Kettlebells, battle ropes, resistance tools, medicine balls and versatile equipment for functional zones.",
+        image: images.functional,
+        features: [
+            "Studio-ready essentials",
+            "Scalable training options",
+            "Conditioning equipment",
+            "Mobility and recovery tools"
+        ]
+    },
+    {
+        slug: "fitness-accessories",
+        name: "Fitness Accessories",
+        tagline: "The essentials behind every great workout.",
+        description: "Dumbbells, plates, mats, belts, rods, ropes and everyday gym essentials.",
+        image: images.accessories,
+        features: [
+            "Broad weight selection",
+            "Home and commercial use",
+            "Training and safety essentials",
+            "Bulk enquiry support"
+        ]
+    }
+];
+const products = [
+    {
+        slug: "performance-treadmill-x7",
+        name: "Performance Treadmill X7",
+        category: "cardio-equipment",
+        brand: "welcare",
+        image: images.arrivals.performanceTreadmill,
+        short: "A refined treadmill for energetic home and commercial cardio.",
+        description: "A performance-focused treadmill with a spacious running area, intuitive controls and workout modes suited to regular training.",
+        features: [
+            "Cushioned running deck",
+            "Speed and incline controls",
+            "Workout display",
+            "Emergency safety key"
+        ],
+        isNew: true
+    },
+    {
+        slug: "commercial-elliptical-pro",
+        name: "Commercial Elliptical Pro",
+        category: "cardio-equipment",
+        brand: "hercules-fitness",
+        image: images.arrivals.commercialElliptical,
+        short: "Low-impact, full-body cardio with a smooth stride.",
+        description: "A durable elliptical trainer designed for consistent use in fitness centers, apartment gyms and premium home spaces.",
+        features: [
+            "Smooth elliptical path",
+            "Multiple resistance levels",
+            "Ergonomic handles",
+            "Performance console"
+        ],
+        isNew: true
+    },
+    {
+        slug: "studio-exercise-bike",
+        name: "Studio Exercise Bike",
+        category: "cardio-equipment",
+        brand: "reebok",
+        image: images.arrivals.studioBike,
+        short: "Responsive indoor cycling for daily conditioning.",
+        description: "A stable exercise bike with adjustable riding geometry and resistance for varied fitness levels.",
+        features: [
+            "Adjustable seat",
+            "Resistance control",
+            "Stable frame",
+            "Compact footprint"
+        ],
+        isNew: true
+    },
+    {
+        slug: "heavy-duty-multi-gym",
+        name: "Heavy Duty Multi Gym",
+        category: "strength-equipment",
+        brand: "firm",
+        image: images.arrivals.multiGym,
+        short: "Multiple strength stations in an efficient footprint.",
+        description: "A versatile multi gym for presses, pulls and lower-body exercises, ideal for clubs and institutional fitness rooms.",
+        features: [
+            "Multiple exercise stations",
+            "Protective weight stack",
+            "Heavy-duty upholstery",
+            "Commercial frame"
+        ],
+        isNew: true
+    },
+    {
+        slug: "multi-play-station-equipment",
+        name: "Multi Play Station Equipment",
+        category: "strength-equipment",
+        brand: "hercules-fitness",
+        image: images.strength,
+        short: "Multi-user strength station for busy commercial training floors.",
+        description: "A multi play station setup helps clubs combine cable work, pulleys, presses and strength stations in one organized footprint for multiple users.",
+        features: [
+            "Multiple workout stations",
+            "Commercial-grade frame",
+            "Cable and pulley training",
+            "Space-efficient strength zone"
+        ]
+    },
+    {
+        slug: "adjustable-training-bench",
+        name: "Adjustable Training Bench",
+        category: "strength-equipment",
+        brand: "accuniq",
+        image: images.arrivals.trainingBench,
+        short: "Stable support for presses, rows and free-weight work.",
+        description: "A dependable adjustable bench with multiple backrest positions for varied strength exercises.",
+        features: [
+            "Multiple incline positions",
+            "Dense supportive padding",
+            "Transport wheels",
+            "Reinforced steel frame"
+        ],
+        isNew: true
+    },
+    {
+        slug: "rubber-dumbbell-set",
+        name: "Rubber Dumbbell Set",
+        category: "fitness-accessories",
+        brand: "firm",
+        image: images.arrivals.dumbbellSet,
+        short: "Durable free weights for home and commercial racks.",
+        description: "Comfortable, hard-wearing dumbbells available across weight ranges for progressive strength training.",
+        features: [
+            "Knurled grip",
+            "Rubber-coated heads",
+            "Multiple weights available",
+            "Rack options"
+        ],
+        accessory: true,
+        isNew: true
+    },
+    {
+        slug: "cast-iron-kettlebell",
+        name: "Cast Iron Kettlebell",
+        category: "functional-training",
+        brand: "accuniq",
+        image: images.functional,
+        short: "A versatile essential for power and conditioning.",
+        description: "Balanced kettlebells for swings, carries, squats and full-body functional training.",
+        features: [
+            "Comfortable handle",
+            "Stable base",
+            "Multiple weights",
+            "Durable finish"
+        ],
+        accessory: true
+    },
+    {
+        slug: "premium-yoga-mat",
+        name: "Premium Yoga Mat",
+        category: "fitness-accessories",
+        brand: "reebok",
+        image: images.yoga,
+        short: "Supportive grip for mobility, yoga and floor work.",
+        description: "A comfortable exercise mat for stretching, yoga, bodyweight training and recovery sessions.",
+        features: [
+            "Textured grip",
+            "Comfortable cushioning",
+            "Easy-roll design",
+            "Simple to maintain"
+        ],
+        accessory: true
+    },
+    {
+        slug: "resistance-band-kit",
+        name: "Resistance Band Kit",
+        category: "functional-training",
+        brand: "welcare",
+        image: images.resistanceBand,
+        short: "Portable resistance for strength and mobility.",
+        description: "A practical resistance kit for warm-ups, assisted movements, rehabilitation and full-body workouts.",
+        features: [
+            "Multiple resistance levels",
+            "Portable design",
+            "Full-body applications",
+            "Home and studio use"
+        ],
+        accessory: true
+    },
+    {
+        slug: "olympic-weight-plates",
+        name: "Olympic Weight Plates",
+        category: "fitness-accessories",
+        brand: "hercules-fitness",
+        image: images.dumbbells,
+        short: "Reliable plates for progressive barbell training.",
+        description: "Commercial-ready weight plates made for regular strength training and organized gym floors.",
+        features: [
+            "Multiple weight options",
+            "Easy-grip design",
+            "Durable coating",
+            "Olympic bar compatibility"
+        ],
+        accessory: true
+    },
+    {
+        slug: "training-gloves",
+        name: "Training Gloves",
+        category: "fitness-accessories",
+        brand: "reebok",
+        image: images.accessories,
+        short: "Grip and palm support for confident lifting.",
+        description: "Breathable training gloves designed to improve grip and comfort during strength workouts.",
+        features: [
+            "Padded palm",
+            "Adjustable wrist closure",
+            "Breathable construction",
+            "Secure grip"
+        ],
+        accessory: true
+    },
+    {
+        slug: "weightlifting-belt",
+        name: "Weightlifting Belt",
+        category: "fitness-accessories",
+        brand: "firm",
+        image: images.accessories,
+        short: "Core support for demanding strength sessions.",
+        description: "A supportive gym belt for lifters who want a secure fit during squats, deadlifts and heavy compound work.",
+        features: [
+            "Supportive profile",
+            "Secure buckle",
+            "Multiple sizes",
+            "Comfortable inner finish"
+        ],
+        accessory: true
+    }
+];
+const brands = [
+    {
+        slug: "welcare",
+        name: "Welcare",
+        summary: "Popular cardio and home-fitness solutions.",
+        description: "Welcare offers approachable fitness equipment for home users and everyday cardio routines, with practical feature sets across treadmills and training essentials.",
+        specialties: [
+            "Treadmills",
+            "Home fitness",
+            "Cardio equipment"
+        ]
+    },
+    {
+        slug: "hercules-fitness",
+        name: "Hercules Fitness",
+        summary: "Robust equipment for demanding fitness spaces.",
+        description: "Hercules Fitness is known for sturdy cardio and strength options suited to active gyms, institutions and committed home users.",
+        specialties: [
+            "Commercial cardio",
+            "Strength equipment",
+            "Gym essentials"
+        ]
+    },
+    {
+        slug: "reebok",
+        name: "Reebok",
+        summary: "Globally recognized fitness and training products.",
+        description: "Reebok fitness products bring recognizable design and training-focused functionality to cardio, studio and accessory categories.",
+        specialties: [
+            "Exercise bikes",
+            "Studio equipment",
+            "Accessories"
+        ]
+    },
+    {
+        slug: "firm",
+        name: "Firm",
+        summary: "Practical strength and free-weight equipment.",
+        description: "Firm provides dependable equipment choices for strength zones, from multi gyms and benches to everyday free weights.",
+        specialties: [
+            "Multi gyms",
+            "Benches",
+            "Free weights"
+        ]
+    },
+    {
+        slug: "accuniq",
+        name: "Accuniq",
+        summary: "Performance-led strength and functional choices.",
+        description: "Accuniq products support progressive strength and functional training with equipment suited to varied workout spaces.",
+        specialties: [
+            "Strength benches",
+            "Functional equipment",
+            "Kettlebells"
+        ]
+    },
+    {
+        slug: "other-premium-brands",
+        name: "Other Premium Brands",
+        summary: "More choices matched to your space and budget.",
+        description: "Our wider supplier network helps us recommend equipment based on use, available area, service requirements and investment range.",
+        specialties: [
+            "Custom sourcing",
+            "Multiple budgets",
+            "Project-specific options"
+        ]
+    }
+];
+const navItems = [
+    [
+        "Home",
+        "/"
+    ],
+    [
+        "About",
+        "/about"
+    ],
+    [
+        "Home Fitness",
+        "/home-fitness"
+    ],
+    [
+        "Gym Fitness",
+        "/gym-fitness"
+    ],
+    [
+        "Categories",
+        "/categories"
+    ],
+    [
+        "New Arrivals",
+        "/new-arrivals"
+    ],
+    [
+        "Offers",
+        "/offers"
+    ],
+    [
+        "Blog",
+        "/blog"
+    ],
+    [
+        "Contact",
+        "/contact"
+    ]
+];
+function whatsappUrl(subject = "gym equipment") {
+    return `https://wa.me/91${business.customerCare}?text=${encodeURIComponent(`Hello Span Fitness Equipments, I would like to enquire about ${subject}.`)}`;
+}
+function findCategory(slug) {
+    return categories.find((item)=>item.slug === slug);
+}
+function findProduct(slug) {
+    return products.find((item)=>item.slug === slug);
+}
+function findBrand(slug) {
+    return brands.find((item)=>item.slug === slug);
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/app/components/site.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ButtonLink",
+    ()=>ButtonLink,
+    "CtaBand",
+    ()=>CtaBand,
+    "Footer",
+    ()=>Footer,
+    "Header",
+    ()=>Header,
+    "PageHero",
+    ()=>PageHero,
+    "SectionTitle",
+    ()=>SectionTitle
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-client] (ecmascript) <export default as ArrowRight>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$badge$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BadgeCheck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/badge-check.js [app-client] (ecmascript) <export default as BadgeCheck>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mail.js [app-client] (ecmascript) <export default as Mail>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/map-pin.js [app-client] (ecmascript) <export default as MapPin>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/menu.js [app-client] (ecmascript) <export default as Menu>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/phone.js [app-client] (ecmascript) <export default as Phone>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/x.js [app-client] (ecmascript) <export default as X>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/app/data.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+function ButtonLink({ href, children, secondary = false }) {
+    const external = href.startsWith("http") || href.startsWith("tel:") || href.startsWith("mailto:");
+    const className = `inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-bold transition hover:-translate-y-0.5 ${secondary ? "border border-white/20 bg-white/5 text-white hover:border-coral" : "btn-shine bg-gradient-to-r from-ember to-coral text-white shadow-glow"}`;
+    return external ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+        href: href,
+        className: className,
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 14,
+        columnNumber: 21
+    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+        href: href,
+        className: className,
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 14,
+        columnNumber: 75
+    }, this);
+}
+_c = ButtonLink;
+function Header() {
+    _s();
+    const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const path = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    if (path.startsWith("/admin")) return null;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+        className: "sticky top-0 z-50 border-b border-white/10 bg-[#070d20]/95 shadow-[0_18px_55px_rgba(0,0,0,.32)] backdrop-blur-xl",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "hidden border-b border-white/5 bg-white/[0.025] sm:block",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "section-shell flex h-9 items-center justify-between text-[11px] font-semibold text-white/60",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-5",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                    href: `tel:${__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].phone}`,
+                                    className: "flex items-center gap-2 hover:text-coral",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                            className: "size-3.5 text-coral"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/site.tsx",
+                                            lineNumber: 25,
+                                            columnNumber: 139
+                                        }, this),
+                                        " ",
+                                        __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["phoneDisplay"]
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 25,
+                                    columnNumber: 52
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "hidden items-center gap-2 md:flex",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                            className: "size-3.5 text-coral"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/components/site.tsx",
+                                            lineNumber: 25,
+                                            columnNumber: 251
+                                        }, this),
+                                        " Visakhapatnam, Andhra Pradesh"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 25,
+                                    columnNumber: 199
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/components/site.tsx",
+                            lineNumber: 25,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            className: "hidden items-center gap-2 uppercase tracking-[.14em] md:flex",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$badge$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BadgeCheck$3e$__["BadgeCheck"], {
+                                    className: "size-3.5 text-coral"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 26,
+                                    columnNumber: 90
+                                }, this),
+                                " Trusted gym equipment partner"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/components/site.tsx",
+                            lineNumber: 26,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                            href: `mailto:${__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].email}`,
+                            className: "hidden hover:text-coral lg:block",
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].email
+                        }, void 0, false, {
+                            fileName: "[project]/app/components/site.tsx",
+                            lineNumber: 27,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/components/site.tsx",
+                    lineNumber: 24,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 23,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                className: "section-shell flex min-h-[84px] items-center justify-between gap-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/",
+                        "aria-label": "Span Fitness home",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            src: "/span-fitness-logo-light.png",
+                            alt: "Span Fitness Equipments",
+                            width: 192,
+                            height: 56,
+                            priority: true,
+                            className: "h-14 w-40 object-contain object-left 2xl:w-48"
+                        }, void 0, false, {
+                            fileName: "[project]/app/components/site.tsx",
+                            lineNumber: 31,
+                            columnNumber: 55
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 31,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "hidden items-center xl:flex",
+                        children: __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["navItems"].map(([label, href])=>{
+                            const active = href === "/" ? path === "/" : path.startsWith(href);
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                href: href,
+                                className: `group relative px-1.5 py-4 text-[11px] font-bold transition hover:text-white 2xl:px-2.5 2xl:text-xs ${active ? "text-white" : "text-white/60"}`,
+                                children: [
+                                    label,
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: `absolute inset-x-1.5 bottom-2 h-0.5 origin-left bg-coral transition-transform duration-300 2xl:inset-x-2.5 ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 35,
+                                        columnNumber: 213
+                                    }, this)
+                                ]
+                            }, href, true, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 35,
+                                columnNumber: 20
+                            }, this);
+                        })
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 32,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                href: `tel:${__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].phone}`,
+                                "aria-label": "Call",
+                                className: "hidden size-11 place-items-center rounded-md border border-white/15 text-white transition hover:border-coral sm:grid",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                    className: "size-5"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 39,
+                                    columnNumber: 192
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 39,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/contact",
+                                className: "btn-shine hidden rounded-md bg-gradient-to-r from-ember to-coral px-5 py-3 text-sm font-bold shadow-[0_9px_28px_rgba(190,49,68,.3)] 2xl:block",
+                                children: "Get a Quote"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 40,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setOpen(!open),
+                                "aria-label": "Toggle menu",
+                                className: "grid size-11 place-items-center rounded-md border border-white/15 xl:hidden",
+                                children: open ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {}, void 0, false, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 41,
+                                    columnNumber: 171
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__["Menu"], {}, void 0, false, {
+                                    fileName: "[project]/app/components/site.tsx",
+                                    lineNumber: 41,
+                                    columnNumber: 179
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 41,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 38,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 30,
+                columnNumber: 7
+            }, this),
+            open && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "section-shell grid border-t border-white/10 py-4 xl:hidden",
+                children: __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["navItems"].map(([label, href])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: href,
+                        onClick: ()=>setOpen(false),
+                        className: "border-b border-white/5 py-3 text-sm font-bold text-white/75",
+                        children: label
+                    }, href, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 44,
+                        columnNumber: 125
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 44,
+                columnNumber: 16
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 22,
+        columnNumber: 5
+    }, this);
+}
+_s(Header, "jCKIBCi3aBjWR5T1ItZoEmejbO8=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+    ];
+});
+_c1 = Header;
+function Footer({ categories: footerCategories = __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["categories"] }) {
+    _s1();
+    const path = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    if (path.startsWith("/admin")) return null;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
+        className: "site-footer relative overflow-hidden border-t border-white/10 bg-[#070d20] pt-10",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "site-footer__glow site-footer__glow--one"
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 54,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "site-footer__glow site-footer__glow--two"
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 55,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "section-shell relative grid gap-4 pb-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.35fr_1.7fr_1.2fr_.95fr_1.45fr]",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "site-footer__brand",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                src: "/span-fitness-logo-light.png",
+                                alt: "Span Fitness Equipments",
+                                width: 192,
+                                height: 56,
+                                className: "h-14 w-48 object-contain object-left"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 58,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "mt-4 text-sm leading-6 text-white/55",
+                                children: "Premium cardio, strength, home gym, multi play station and commercial fitness solutions across Andhra Pradesh and Telangana."
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 59,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 57,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "site-footer__panel",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                children: "Explore"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 62,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "site-footer__links site-footer__links--explore mt-3",
+                                children: __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["navItems"].map(([label, href])=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: href,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "site-footer__dot"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 66,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: label
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 67,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, href, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 65,
+                                        columnNumber: 15
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 63,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 61,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "site-footer__panel",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                children: "Categories"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 73,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "site-footer__links mt-3 grid gap-1.5",
+                                children: [
+                                    footerCategories.slice(0, 5).map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            href: `/categories/${item.slug}`,
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "site-footer__dot"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/components/site.tsx",
+                                                    lineNumber: 77,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: item.name
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/components/site.tsx",
+                                                    lineNumber: 78,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, item.slug, true, {
+                                            fileName: "[project]/app/components/site.tsx",
+                                            lineNumber: 76,
+                                            columnNumber: 15
+                                        }, this)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: "/products/multi-play-station-equipment",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "site-footer__dot"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 82,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "Multi Play Station"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 83,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 81,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 74,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 72,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "site-footer__panel",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                children: "Legal"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 88,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "site-footer__links mt-3 grid gap-1.5",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: "/privacy-policy",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "site-footer__dot"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 91,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "Privacy Policy"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 92,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 90,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        href: "/terms-and-conditions",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "site-footer__dot"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 95,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "Terms & Conditions"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 96,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 94,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 89,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 87,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "site-footer__panel",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                children: "Contact"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 101,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "mt-3 grid gap-2 text-sm text-white/70",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: `tel:${__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].phone}`,
+                                        className: "site-footer__contact",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                                className: "size-4 shrink-0 text-coral"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 103,
+                                                columnNumber: 80
+                                            }, this),
+                                            __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["phoneDisplay"]
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 103,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: `mailto:${__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].email}`,
+                                        className: "site-footer__contact break-all",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
+                                                className: "size-4 shrink-0 text-coral"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 104,
+                                                columnNumber: 93
+                                            }, this),
+                                            __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].email
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 104,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "site-footer__contact leading-6",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                                className: "size-4 shrink-0 text-coral"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/components/site.tsx",
+                                                lineNumber: 105,
+                                                columnNumber: 62
+                                            }, this),
+                                            __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["business"].address
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 105,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 102,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 100,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 56,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "border-t border-white/10 py-6 text-center text-xs text-white/40",
+                children: [
+                    "Copyright © 2026 Span Fitness Equipments. All Rights Reserved.",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "mx-2 text-white/20",
+                        children: "|"
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 111,
+                        columnNumber: 9
+                    }, this),
+                    "Developed by ",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "font-bold text-coral",
+                        children: "Arixa Technologies"
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 112,
+                        columnNumber: 22
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 109,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 53,
+        columnNumber: 5
+    }, this);
+}
+_s1(Footer, "kx72sda92+XlSh1QiZvq/YVQxpY=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+    ];
+});
+_c2 = Footer;
+function PageHero({ eyebrow, title, description, image }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+        className: "relative overflow-hidden border-b border-white/10 py-14 sm:py-20",
+        children: [
+            image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        src: image,
+                        alt: "",
+                        fill: true,
+                        sizes: "100vw",
+                        className: "object-cover opacity-30"
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 121,
+                        columnNumber: 19
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-navy/45"
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 121,
+                        columnNumber: 102
+                    }, this)
+                ]
+            }, void 0, true),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute -left-24 top-0 size-72 rounded-full bg-ember/20 blur-[110px]"
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 122,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "section-shell relative max-w-4xl",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-xs font-black uppercase tracking-[0.22em] text-coral",
+                        children: eyebrow
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 124,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "mt-5 font-display text-4xl font-black leading-[1.05] sm:text-6xl lg:text-7xl",
+                        children: title
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 125,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-6 max-w-2xl text-base leading-8 text-white/65 sm:text-lg",
+                        children: description
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 126,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 123,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 120,
+        columnNumber: 5
+    }, this);
+}
+_c3 = PageHero;
+function SectionTitle({ eyebrow, title, body }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "mb-8 max-w-3xl",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "text-xs font-black uppercase tracking-[0.2em] text-coral",
+                children: eyebrow
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 133,
+                columnNumber: 42
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                className: "mt-3 font-display text-3xl font-black sm:text-5xl",
+                children: title
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 133,
+                columnNumber: 127
+            }, this),
+            body && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "mt-3 leading-7 text-white/60",
+                children: body
+            }, void 0, false, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 133,
+                columnNumber: 214
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 133,
+        columnNumber: 10
+    }, this);
+}
+_c4 = SectionTitle;
+function CtaBand({ title = "Planning a new fitness space?", text = "Tell us about your space, users and budget. We will help shortlist the right equipment mix." }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+        className: "py-12",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "section-shell rounded-3xl border border-coral/30 bg-gradient-to-br from-wine/65 to-[#101a38] p-7 sm:p-10",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-col justify-between gap-5 lg:flex-row lg:items-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "font-display text-3xl font-black",
+                                children: title
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 137,
+                                columnNumber: 245
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "mt-3 max-w-2xl text-white/65",
+                                children: text
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 137,
+                                columnNumber: 306
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 137,
+                        columnNumber: 240
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ButtonLink, {
+                                href: "/contact",
+                                children: [
+                                    "Request a Quote ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                        className: "size-4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/components/site.tsx",
+                                        lineNumber: 137,
+                                        columnNumber: 448
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 137,
+                                columnNumber: 404
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ButtonLink, {
+                                href: (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$data$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["whatsappUrl"])(),
+                                secondary: true,
+                                children: "WhatsApp Us"
+                            }, void 0, false, {
+                                fileName: "[project]/app/components/site.tsx",
+                                lineNumber: 137,
+                                columnNumber: 494
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/components/site.tsx",
+                        lineNumber: 137,
+                        columnNumber: 366
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/components/site.tsx",
+                lineNumber: 137,
+                columnNumber: 159
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/app/components/site.tsx",
+            lineNumber: 137,
+            columnNumber: 37
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/app/components/site.tsx",
+        lineNumber: 137,
+        columnNumber: 10
+    }, this);
+}
+_c5 = CtaBand;
+var _c, _c1, _c2, _c3, _c4, _c5;
+__turbopack_context__.k.register(_c, "ButtonLink");
+__turbopack_context__.k.register(_c1, "Header");
+__turbopack_context__.k.register(_c2, "Footer");
+__turbopack_context__.k.register(_c3, "PageHero");
+__turbopack_context__.k.register(_c4, "SectionTitle");
+__turbopack_context__.k.register(_c5, "CtaBand");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/config/site.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "adminSections",
+    ()=>adminSections,
+    "siteConfig",
+    ()=>siteConfig
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const configuredUrl = ("TURBOPACK compile-time value", "http://localhost:3000") || "https://spanfitnessequipments.com";
+const siteConfig = {
+    name: "Span Fitness Equipments",
+    legalName: "Span Fitness Equipments",
+    url: configuredUrl.replace(/\/$/, ""),
+    description: "Premium commercial gym equipment, home gym equipment, cardio machines, strength equipment and fitness accessories in Visakhapatnam.",
+    owner: "A Senthil Kumar",
+    phone: ("TURBOPACK compile-time value", "9703344483") || "9703344483",
+    customerCare: ("TURBOPACK compile-time value", "9980875446") || "9980875446",
+    email: ("TURBOPACK compile-time value", "spanfitnessequipments@gmail.com") || "spanfitnessequipments@gmail.com",
+    address: "D. 50-81-26, Seethampeta Main Road, Visakhapatnam - 530016",
+    locality: "Visakhapatnam",
+    region: "Andhra Pradesh",
+    postalCode: "530016",
+    country: "IN",
+    locations: [
+        "Srikakulam",
+        "Vizianagaram",
+        "Visakhapatnam",
+        "Kakinada",
+        "Vijayawada",
+        "Hyderabad",
+        "Ongole",
+        "Nellore",
+        "Cuddapah",
+        "Ananthapuramu"
+    ],
+    brands: [
+        "Welcare",
+        "Hercules Fitness",
+        "Reebok",
+        "Firm",
+        "Accuniq"
+    ],
+    keywords: [
+        "fitness equipment store in Visakhapatnam",
+        "gym equipment dealer in Visakhapatnam",
+        "commercial gym equipment",
+        "home gym equipment",
+        "home fitness equipment",
+        "gym fitness equipment",
+        "multi play station equipment",
+        "fitness accessories",
+        "treadmill dealer",
+        "gym setup equipment",
+        "fitness equipment dealer in Andhra Pradesh",
+        "gym equipment supplier",
+        "Span Fitness Equipments"
+    ]
+};
+const adminSections = [
+    [
+        "Products",
+        "/admin/products"
+    ],
+    [
+        "Categories",
+        "/admin/categories"
+    ],
+    [
+        "Brands",
+        "/admin/brands"
+    ],
+    [
+        "Accessories",
+        "/admin/accessories"
+    ],
+    [
+        "Offers",
+        "/admin/offers"
+    ],
+    [
+        "Gallery",
+        "/admin/gallery"
+    ],
+    [
+        "Blog Posts",
+        "/admin/blog"
+    ],
+    [
+        "FAQs",
+        "/admin/faqs"
+    ],
+    [
+        "Testimonials",
+        "/admin/testimonials"
+    ],
+    [
+        "Leads",
+        "/admin/leads"
+    ],
+    [
+        "Media",
+        "/admin/media"
+    ],
+    [
+        "Settings",
+        "/admin/settings"
+    ],
+    [
+        "SEO",
+        "/admin/seo"
+    ]
+];
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/components/layout/floating-actions.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "FloatingActions",
+    ()=>FloatingActions
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageCircle$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-circle.js [app-client] (ecmascript) <export default as MessageCircle>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/phone.js [app-client] (ecmascript) <export default as Phone>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$site$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/config/site.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+function FloatingActions() {
+    _s();
+    const path = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    if (path.startsWith("/admin")) return null;
+    const message = encodeURIComponent("Hello Span Fitness Equipments, I would like to request a quote.");
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                href: `https://wa.me/91${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$site$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteConfig"].customerCare}?text=${message}`,
+                "aria-label": "WhatsApp Span Fitness Equipments",
+                className: "fixed bottom-20 right-4 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:scale-105 sm:bottom-6",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageCircle$3e$__["MessageCircle"], {
+                    className: "size-7"
+                }, void 0, false, {
+                    fileName: "[project]/components/layout/floating-actions.tsx",
+                    lineNumber: 12,
+                    columnNumber: 282
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/components/layout/floating-actions.tsx",
+                lineNumber: 12,
+                columnNumber: 5
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                href: `tel:${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$site$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteConfig"].phone}`,
+                className: "fixed inset-x-0 bottom-0 z-40 flex h-14 items-center justify-center gap-2 bg-gradient-to-r from-ember to-coral font-bold shadow-2xl sm:hidden",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                        className: "size-5"
+                    }, void 0, false, {
+                        fileName: "[project]/components/layout/floating-actions.tsx",
+                        lineNumber: 13,
+                        columnNumber: 195
+                    }, this),
+                    " Call Span Fitness"
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/layout/floating-actions.tsx",
+                lineNumber: 13,
+                columnNumber: 5
+            }, this)
+        ]
+    }, void 0, true);
+}
+_s(FloatingActions, "kx72sda92+XlSh1QiZvq/YVQxpY=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+    ];
+});
+_c = FloatingActions;
+var _c;
+__turbopack_context__.k.register(_c, "FloatingActions");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/components/layout/site-chrome.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "SiteChrome",
+    ()=>SiteChrome
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$site$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/app/components/site.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$layout$2f$floating$2d$actions$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/layout/floating-actions.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+function SiteChrome({ children, footerCategories }) {
+    _s();
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
+    const [transitioning, setTransitioning] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const timeoutRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SiteChrome.useEffect": ()=>{
+            const clearTransition = {
+                "SiteChrome.useEffect.clearTransition": ()=>{
+                    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+                    timeoutRef.current = window.setTimeout({
+                        "SiteChrome.useEffect.clearTransition": ()=>setTransitioning(false)
+                    }["SiteChrome.useEffect.clearTransition"], 260);
+                }
+            }["SiteChrome.useEffect.clearTransition"];
+            clearTransition();
+            return ({
+                "SiteChrome.useEffect": ()=>{
+                    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+                }
+            })["SiteChrome.useEffect"];
+        }
+    }["SiteChrome.useEffect"], [
+        pathname
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SiteChrome.useEffect": ()=>{
+            if (pathname.startsWith("/admin")) return;
+            const shouldShowLoader = {
+                "SiteChrome.useEffect.shouldShowLoader": (anchor)=>{
+                    if (anchor.target && anchor.target !== "_self") return false;
+                    if (anchor.hasAttribute("download")) return false;
+                    const nextUrl = new URL(anchor.href, window.location.href);
+                    const currentUrl = new URL(window.location.href);
+                    if (nextUrl.origin !== currentUrl.origin) return false;
+                    if (nextUrl.pathname === currentUrl.pathname && nextUrl.search === currentUrl.search) return false;
+                    return true;
+                }
+            }["SiteChrome.useEffect.shouldShowLoader"];
+            const handleClick = {
+                "SiteChrome.useEffect.handleClick": (event)=>{
+                    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+                    const target = event.target;
+                    if (!(target instanceof Element)) return;
+                    const anchor = target.closest("a[href]");
+                    if (!anchor || !(anchor instanceof HTMLAnchorElement)) return;
+                    if (!shouldShowLoader(anchor)) return;
+                    setTransitioning(true);
+                }
+            }["SiteChrome.useEffect.handleClick"];
+            const handlePopState = {
+                "SiteChrome.useEffect.handlePopState": ()=>setTransitioning(true)
+            }["SiteChrome.useEffect.handlePopState"];
+            document.addEventListener("click", handleClick, true);
+            window.addEventListener("popstate", handlePopState);
+            return ({
+                "SiteChrome.useEffect": ()=>{
+                    document.removeEventListener("click", handleClick, true);
+                    window.removeEventListener("popstate", handlePopState);
+                }
+            })["SiteChrome.useEffect"];
+        }
+    }["SiteChrome.useEffect"], [
+        pathname
+    ]);
+    if (pathname.startsWith("/admin")) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: children
+    }, void 0, false);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$site$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Header"], {}, void 0, false, {
+                fileName: "[project]/components/layout/site-chrome.tsx",
+                lineNumber: 70,
+                columnNumber: 7
+            }, this),
+            transitioning && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(PageTransitionLoader, {}, void 0, false, {
+                fileName: "[project]/components/layout/site-chrome.tsx",
+                lineNumber: 71,
+                columnNumber: 25
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                children: children
+            }, void 0, false, {
+                fileName: "[project]/components/layout/site-chrome.tsx",
+                lineNumber: 72,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$site$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Footer"], {
+                categories: footerCategories
+            }, void 0, false, {
+                fileName: "[project]/components/layout/site-chrome.tsx",
+                lineNumber: 73,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$layout$2f$floating$2d$actions$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FloatingActions"], {}, void 0, false, {
+                fileName: "[project]/components/layout/site-chrome.tsx",
+                lineNumber: 74,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true);
+}
+_s(SiteChrome, "FY7H7Teg+kAkiZs9LPejkexb1Fg=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+    ];
+});
+_c = SiteChrome;
+function PageTransitionLoader() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "page-loader page-loader--transition",
+        role: "status",
+        "aria-live": "polite",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "page-loader__panel",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "page-loader__ring",
+                    "aria-hidden": "true",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
+                            fileName: "[project]/components/layout/site-chrome.tsx",
+                            lineNumber: 84,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
+                            fileName: "[project]/components/layout/site-chrome.tsx",
+                            lineNumber: 85,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
+                            fileName: "[project]/components/layout/site-chrome.tsx",
+                            lineNumber: 86,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/layout/site-chrome.tsx",
+                    lineNumber: 83,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    children: "Loading Span Fitness"
+                }, void 0, false, {
+                    fileName: "[project]/components/layout/site-chrome.tsx",
+                    lineNumber: 88,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/components/layout/site-chrome.tsx",
+            lineNumber: 82,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/components/layout/site-chrome.tsx",
+        lineNumber: 81,
+        columnNumber: 5
+    }, this);
+}
+_c1 = PageTransitionLoader;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "SiteChrome");
+__turbopack_context__.k.register(_c1, "PageTransitionLoader");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=_09qhju3._.js.map

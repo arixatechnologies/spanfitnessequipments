@@ -1,5 +1,5 @@
 import { CtaBand, PageHero } from "../components/site";
-import { business, images } from "../data";
+import { business, images, phoneDisplay } from "../data";
 
 export const metadata = {
   title: "Terms & Conditions",
@@ -12,7 +12,7 @@ const termItems = [
   ["Enquiries And Quotations", "Submitting an enquiry does not create a confirmed order. Quotations, delivery timelines, installation details and payment terms are confirmed separately."],
   ["Payments And Orders", "Any purchase, advance payment, cancellation, warranty or service condition will follow the terms communicated at the time of order confirmation."],
   ["External Links", "The website may include links to WhatsApp, social media, maps or third-party services. Span Fitness Equipments is not responsible for third-party website content or policies."],
-  ["Contact", `For questions about these terms, contact ${business.name} at ${business.email} or call ${business.phone}.`],
+  ["Contact", `For questions about these terms, contact ${business.name} at ${business.email} or call ${phoneDisplay}.`],
 ] as const;
 
 export default function TermsAndConditionsPage() {

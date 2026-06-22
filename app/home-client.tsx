@@ -6,28 +6,30 @@ import {
   ArrowRight,
   BadgeCheck,
   Building2,
+  CheckCircle2,
   Dumbbell,
-  Facebook,
-  Instagram,
   Mail,
   MapPin,
   MessageCircle,
+  Play,
   Phone,
+  Quote,
   ShieldCheck,
   Sparkles,
+  Star,
   Users,
   X,
-  Youtube,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { BrandLogoRail } from "./components/brand-logo-rail";
 import { CategoryCard, NewArrivalCard } from "./components/cards";
 import { ButtonLink } from "./components/site";
-import type { Brand, Category, Product } from "./data";
+import type { Category, Product } from "./data";
 import {
   business,
-  brands as fallbackBrands,
   categories as fallbackCategories,
   images,
+  phoneDisplay,
   products as fallbackProducts,
   whatsappUrl,
 } from "./data";
@@ -42,14 +44,21 @@ type GalleryItem = {
 type HomeClientProps = {
   categories?: Category[];
   products?: Product[];
-  brands?: Brand[];
   galleryItems?: GalleryItem[];
+  testimonials?: TestimonialItem[];
+};
+
+type TestimonialItem = {
+  name: string;
+  role: string;
+  quote: string;
+  location: string;
 };
 
 const enquirySessionKey = "span-fitness-enquiry-shown";
 const heroSlides = [
   {
-    src: images.hero,
+    src: "/images/og/og.png",
     alt: "Welcare and Span Fitness Equipments showroom",
     position: "object-[58%_top] sm:object-center",
   },
@@ -61,22 +70,110 @@ const heroSlides = [
 ] as const;
 
 const fallbackGalleryItems: GalleryItem[] = [
-  { title: "Commercial Gym Setup", image: "/images/gallery/premium-commercial-gym-gallery.png", description: "Complete floor planning", href: "/categories" },
-  { title: "Cardio Zone", image: "/images/gallery/cardio-zone-gallery.png", description: "Treadmills, bikes and ellipticals", href: "/categories/cardio-equipment" },
-  { title: "Strength Floor", image: "/images/gallery/strength-zone-gallery.png", description: "Racks, benches and machines", href: "/categories/strength-equipment" },
-  { title: "Home Gym", image: "/images/gallery/home-gym-gallery.png", description: "Compact fitness corners", href: "/categories/home-gym-equipment" },
-  { title: "Functional Training", image: "/images/gallery/functional-training-gallery.png", description: "Turf, ropes and conditioning", href: "/categories/functional-training" },
-  { title: "Accessory Wall", image: "/images/gallery/accessories-wall-gallery.png", description: "Everyday essentials organized", href: "/accessories" },
+  { title: "Showroom Cardio Floor", image: "/images/gallery/gallery1.jpg", description: "Live equipment display", href: "/gym-fitness/cardio" },
+  { title: "Cardio Equipment Display", image: "/images/gallery/gallery2.jpg", description: "Showroom equipment zone", href: "/gym-fitness/cardio" },
+  { title: "Customer Guidance", image: "/images/gallery/gallery3.jpg", description: "Expert buying support", href: "/about" },
+  { title: "Store Launch Moments", image: "/images/gallery/gallery4.jpg", description: "Span Fitness showroom", href: "/about" },
+  { title: "Span Fitness Team", image: "/images/gallery/gallery5.jpg", description: "People and service", href: "/contact" },
+  { title: "Showroom Team", image: "/images/gallery/gallery6.jpg", description: "Trusted support team", href: "/contact" },
+  { title: "Partner Celebration", image: "/images/gallery/gallery7.jpg", description: "Brand relationships", href: "/about" },
+  { title: "Equipment Consultation", image: "/images/gallery/gallery8.jpg", description: "Planning and guidance", href: "/contact" },
+  { title: "Gallery Moments", image: "/images/gallery/gallery9.jpg", description: "Showroom highlights", href: "/contact" },
+  { title: "Showroom Gallery", image: "/images/gallery/gallery10.jpg", description: "Span Fitness showroom", href: "/about" },
 ];
 
-function brandTone(slug: string) {
-  if (slug.includes("welcare")) return "welcare";
-  if (slug.includes("hercules")) return "hercules";
-  if (slug.includes("reebok")) return "reebok";
-  if (slug.includes("firm")) return "firm";
-  if (slug.includes("accuniq")) return "accuniq";
-  return "welcare";
-}
+const fallbackTestimonials: TestimonialItem[] = [
+  { name: "Commercial Gym Owner", role: "Gym Setup Customer", quote: "Span Fitness helped us compare cardio and strength equipment clearly, so our gym floor felt planned instead of crowded.", location: "Visakhapatnam" },
+  { name: "Home Fitness Buyer", role: "Home Gym Customer", quote: "The team suggested practical equipment for our room size and budget. The guidance made choosing a treadmill and accessories much easier.", location: "Hyderabad" },
+  { name: "Apartment Fitness Committee", role: "Residential Gym Setup", quote: "We received a focused equipment mix for shared use, including strength, cardio and free-weight options that matched our space.", location: "Vijayawada" },
+];
+
+const testimonialDetails = [
+  {
+    badge: "Commercial Gym",
+    location: "Visakhapatnam",
+    image: "/images/gallery/gallery1.jpg",
+    result: "Better zone planning and stronger product mix.",
+  },
+  {
+    badge: "Home Gym",
+    location: "Hyderabad",
+    image: "/images/categories/home-gym-equipment-premium.png",
+    result: "Compact setup with cardio, mat and strength basics.",
+  },
+  {
+    badge: "Apartment Gym",
+    location: "Vijayawada",
+    image: "/images/gallery/gallery2.jpg",
+    result: "Shared-use cardio and strength choices for residents.",
+  },
+  {
+    badge: "Fitness Studio",
+    location: "Kakinada",
+    image: "/images/categories/functional-training-premium.png",
+    result: "Functional training tools grouped around floor flow.",
+  },
+  {
+    badge: "Corporate Fitness Center",
+    location: "Srikakulam",
+    image: "/images/gallery/gallery6.jpg",
+    result: "Clean equipment shortlist with support planning.",
+  },
+] as const;
+
+const testimonialFallbackPool: TestimonialItem[] = [
+  ...fallbackTestimonials,
+  {
+    name: "Fitness Studio Partner",
+    role: "Studio Setup Customer",
+    quote: "The installation guidance and product support helped us open with confidence. Members noticed the quality from day one.",
+    location: "Kakinada",
+  },
+  {
+    name: "Corporate Wellness Team",
+    role: "Office Fitness Space",
+    quote: "Span Fitness made the buying process simple, from space planning to reliable after-sales support for our team fitness room.",
+    location: "Srikakulam",
+  },
+];
+
+const testimonialStats = [
+  ["1000+", "Gym Installations"],
+  ["5000+", "Happy Customers"],
+  ["9+", "Brand Stores"],
+  ["98%", "Customer Satisfaction"],
+] as const;
+
+const testimonialTrust = [
+  "Genuine Brands",
+  "Professional Installation",
+  "After-Sales Support",
+  "Warranty Assistance",
+  "PAN India Delivery",
+] as const;
+
+const testimonialMarquee = [
+  "Visakhapatnam Gym Floor",
+  "Hyderabad Home Gym",
+  "Vijayawada Studio",
+  "Kakinada Fitness Space",
+  "Srikakulam Wellness Setup",
+  "Apartment Gym Upgrade",
+] as const;
+
+const homeAccessories = [
+  ["Barbell Rods", "Strength training", "/images/about/barbell rods.png"],
+  ["Dumbbells", "Free weights", "/images/about/dumbbells.webp"],
+  ["Gym Belts", "Lifting support", "/images/about/gym belts.png"],
+  ["Gym Gloves", "Grip support", "/images/about/gym gloves.webp"],
+  ["Kettlebells", "Power movement", "/images/about/kettlebells.png"],
+  ["Medicine Balls", "Functional drills", "/images/about/medicine balls.png"],
+  ["Resistance Bands", "Mobility work", "/images/about/resistance bands.png"],
+  ["Skipping Ropes", "Conditioning", "/images/about/skipping ropes.png"],
+  ["Span Fitness Showroom", "Accessory display", "/images/about/span-fitness-showroom.png"],
+  ["Weight Plate", "Strength loading", "/images/about/weight plate.jpeg"],
+  ["Yoga Mat", "Floor training", "/images/products/Premium%20yoga%20mat.png"],
+] as const;
 
 function EnquiryPopup({ close }: { close: () => void }) {
   return (
@@ -84,7 +181,7 @@ function EnquiryPopup({ close }: { close: () => void }) {
       className="fixed inset-0 z-[80] grid place-items-center bg-navy/85 p-4 backdrop-blur-md"
       onMouseDown={(event) => event.target === event.currentTarget && close()}
     >
-      <div className="gradient-border relative grid w-full max-w-4xl overflow-hidden rounded-lg bg-[#0d1530] shadow-2xl lg:grid-cols-[.9fr_1.1fr]">
+      <div className="gradient-border relative grid w-full max-w-4xl overflow-hidden rounded-lg bg-[#101a38] shadow-2xl lg:grid-cols-[.9fr_1.1fr]">
         <button
           onClick={close}
           aria-label="Close enquiry"
@@ -110,7 +207,7 @@ function EnquiryPopup({ close }: { close: () => void }) {
             </h2>
           </div>
         </div>
-        <div className="bg-[#f1efec] p-7 pt-16 text-navy sm:p-10">
+        <div className="bg-[#fff7f3] p-7 pt-16 text-navy sm:p-10">
           <Image
             src="/span-fitness-logo.png"
             alt="Span Fitness Equipments"
@@ -165,13 +262,29 @@ function EnquiryPopup({ close }: { close: () => void }) {
 export default function HomeClient({
   categories = fallbackCategories,
   products = fallbackProducts,
-  brands = fallbackBrands,
   galleryItems = fallbackGalleryItems,
+  testimonials = fallbackTestimonials,
 }: HomeClientProps) {
   const [popup, setPopup] = useState(false);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+  const trustedStories = testimonialDetails.map((detail, index) => {
+    const item = testimonials[index] || testimonialFallbackPool[index] || testimonialFallbackPool[0];
+
+    return {
+      ...detail,
+      ...item,
+      location: item.location || detail.location,
+      badge: detail.badge,
+      image: detail.image,
+      result: detail.result,
+    };
+  });
+  const featuredStory = trustedStories[0];
+  const videoStory = trustedStories[1];
 
   useEffect(() => {
+    if (heroSlides.length <= 1) return;
+
     const interval = window.setInterval(() => {
       setActiveHeroSlide((current) => (current + 1) % heroSlides.length);
     }, 5500);
@@ -208,7 +321,8 @@ export default function HomeClient({
   return (
     <>
       {popup && <EnquiryPopup close={() => setPopup(false)} />}
-      <section className="relative min-h-[680px] overflow-hidden bg-navy sm:min-h-[720px]">
+      <div className="home-premium-page">
+      <section className="home-hero-premium relative min-h-[680px] overflow-hidden bg-navy sm:min-h-[720px]">
         {heroSlides.map((slide, index) => (
           <Image
             key={slide.src}
@@ -225,10 +339,15 @@ export default function HomeClient({
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,18,44,.78)_0%,rgba(9,18,44,.58)_38%,rgba(9,18,44,.18)_68%,transparent_100%)] sm:bg-[linear-gradient(90deg,rgba(9,18,44,.76)_0%,rgba(9,18,44,.5)_36%,rgba(9,18,44,.12)_65%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9, 18, 44,.78)_0%,rgba(9, 18, 44,.58)_38%,rgba(9, 18, 44,.18)_68%,transparent_100%)] sm:bg-[linear-gradient(90deg,rgba(9, 18, 44,.76)_0%,rgba(9, 18, 44,.5)_36%,rgba(9, 18, 44,.12)_65%,transparent_100%)]" />
+        <div className="home-hero-premium__grid" aria-hidden="true" />
+        <div className="home-hero-premium__halo home-hero-premium__halo--one" aria-hidden="true" />
+        <div className="home-hero-premium__halo home-hero-premium__halo--two" aria-hidden="true" />
+        <div className="home-hero-premium__runner home-hero-premium__runner--one" aria-hidden="true" />
+        <div className="home-hero-premium__runner home-hero-premium__runner--two" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-navy/55 to-transparent" />
         <div className="section-shell relative z-10 flex min-h-[680px] items-start pt-8 text-white sm:min-h-[720px] sm:pt-10 lg:pt-12">
-          <div className="max-w-[32rem] [text-shadow:0_2px_18px_rgba(0,0,0,.35)]">
+          <div className="home-hero-premium__copy max-w-[32rem] [text-shadow:0_2px_18px_rgba(0,0,0,.35)]">
             <p className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[.18em] text-coral">
               <BadgeCheck className="size-4" /> Equipment for every fitness
               vision
@@ -252,7 +371,7 @@ export default function HomeClient({
                 Plan Your Gym
               </Link>
             </div>
-            <div className="mt-8 flex flex-wrap gap-5 text-sm font-bold text-white/75">
+            <div className="home-hero-premium__trust mt-8 flex flex-wrap gap-5 text-sm font-bold text-white/75">
               <span className="flex items-center gap-2">
                 <ShieldCheck className="size-5 text-ember" /> Quality selection
               </span>
@@ -260,15 +379,15 @@ export default function HomeClient({
                 <Users className="size-5 text-ember" /> Expert guidance
               </span>
               <span className="flex items-center gap-2">
-                <MapPin className="size-5 text-ember" /> 10+ locations
+                <MapPin className="size-5 text-ember" /> 9+ locations
               </span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-y border-white/10 bg-[#070e24] py-7">
-        <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(135,35,65,.16),transparent_42%,rgba(225,117,100,.07))]" />
+      <section className="relative overflow-hidden border-y border-white/10 bg-[#09122c] py-7">
+        <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(16, 26, 56,.16),transparent_42%,rgba(225, 117, 100,.07))]" />
         <div className="spotlight-rail section-shell relative overflow-hidden rounded-2xl border border-white/10 bg-white/[.035] px-5 py-6 shadow-[0_18px_60px_rgba(0,0,0,.2)] sm:px-8">
           <div className="spotlight-rail__beam" aria-hidden="true" />
           <div className="relative z-10">
@@ -291,7 +410,7 @@ export default function HomeClient({
             <div className="grid grid-cols-2 gap-y-5 sm:grid-cols-4">
               {[
                 [BadgeCheck, "Multiple", "Premium Brands"],
-                [MapPin, "10+", "Service Locations"],
+                [MapPin, "9+", "Service Locations"],
                 [Dumbbell, "Cardio + Strength", "Equipment Range"],
                 [Users, "Customer", "Support"],
               ].map(([Icon, value, label], index) => {
@@ -323,7 +442,7 @@ export default function HomeClient({
       </section>
 
       <section className="category-showcase relative overflow-hidden border-b border-white/10 py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#0d1733_48%,#09122c_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#101a38_48%,#09122c_100%)]" />
         <div className="category-showcase__grid absolute inset-0 opacity-40" />
         <div className="category-showcase__orb category-showcase__orb--left" />
         <div className="category-showcase__orb category-showcase__orb--right" />
@@ -339,7 +458,7 @@ export default function HomeClient({
             </div>
             <h2 className="relative font-display text-5xl font-black leading-[.95] tracking-[-.035em] sm:text-7xl lg:text-[5.5rem]">
               Find your perfect
-              <span className="mt-2 block bg-gradient-to-r from-coral via-[#fff0e8] to-coral bg-clip-text italic text-transparent">
+              <span className="mt-2 block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
                 training category.
               </span>
             </h2>
@@ -359,7 +478,7 @@ export default function HomeClient({
       </section>
 
       <section id="about" className="relative scroll-mt-28 overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,#070e24_0%,#101a38_55%,#1b1024_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#09122c_0%,#101a38_55%,#872341_100%)]" />
         <div className="absolute -left-32 top-20 size-80 rounded-full bg-wine/25 blur-[110px]" />
         <div className="absolute -right-24 bottom-0 size-72 rounded-full bg-coral/15 blur-[100px]" />
         <div className="section-shell relative grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
@@ -383,7 +502,7 @@ export default function HomeClient({
                 <MapPin className="size-7 shrink-0 text-coral" />
               </div>
             </div>
-            <div className="absolute left-5 top-5 z-10 rounded-2xl border border-coral/30 bg-[#f8eee9]/95 px-5 py-4 text-navy shadow-[0_18px_50px_rgba(0,0,0,.35)] backdrop-blur-sm sm:left-7 sm:top-7">
+            <div className="absolute left-5 top-5 z-10 rounded-2xl border border-coral/30 bg-[#fff7f3]/95 px-5 py-4 text-navy shadow-[0_18px_50px_rgba(0,0,0,.35)] backdrop-blur-sm sm:left-7 sm:top-7">
               <strong className="block font-display text-3xl font-black leading-none">15+</strong>
               <span className="mt-1 block text-[10px] font-black uppercase tracking-[.15em] text-ember">Years of guidance</span>
             </div>
@@ -396,7 +515,7 @@ export default function HomeClient({
             </div>
             <h2 className="mt-6 max-w-xl font-display text-4xl font-black leading-[1.02] sm:text-6xl">
               Your space. Your goals.
-              <span className="block bg-gradient-to-r from-coral to-[#fff0e8] bg-clip-text italic text-transparent">The right equipment.</span>
+              <span className="block bg-gradient-to-r from-coral to-[#fff7f3] bg-clip-text italic text-transparent">The right equipment.</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-8 text-white/65">
               Led by <strong className="text-white">{business.owner}</strong>, we help homes, gyms and institutions compare equipment, plan layouts and make confident choices around space, usage and budget.
@@ -428,7 +547,7 @@ export default function HomeClient({
       </section>
 
       <section className="new-arrivals-showcase relative overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#130f2c_52%,#09122c_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#872341_52%,#09122c_100%)]" />
         <div className="new-arrivals-bubble left-[4%] top-[15%] size-24" />
         <div className="new-arrivals-bubble new-arrivals-bubble--slow right-[7%] top-[10%] size-36" />
         <div className="new-arrivals-bubble new-arrivals-bubble--small left-[18%] top-[55%] size-12" />
@@ -441,7 +560,7 @@ export default function HomeClient({
             </div>
             <h2 className="mt-6 font-display text-5xl font-black leading-[.98] tracking-[-.03em] sm:text-7xl">
               Fresh equipment.
-              <span className="block bg-gradient-to-r from-coral via-[#fff4ee] to-coral bg-clip-text italic text-transparent">
+              <span className="block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
                 Stronger possibilities.
               </span>
             </h2>
@@ -473,7 +592,7 @@ export default function HomeClient({
       </section>
 
       <section className="accessory-flow relative overflow-hidden pb-10 pt-16 sm:pb-12 sm:pt-20">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#0f1834_54%,#09122c_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#101a38_54%,#09122c_100%)]" />
         <div className="accessory-flow__glow absolute left-1/2 top-16 h-52 w-[70%] -translate-x-1/2 rounded-full bg-coral/10 blur-[90px]" />
         <div className="section-shell relative">
           <div className="mx-auto max-w-3xl text-center">
@@ -490,21 +609,10 @@ export default function HomeClient({
 
           <div className="accessory-flow__rail relative mx-auto mt-12 max-w-6xl">
             <div className="accessory-flow__line" aria-hidden="true" />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-              {[
-                ["Dumbbells", "Free weights", images.arrivals.dumbbellSet],
-                ["Weight Plates", "Strength loading", images.dumbbells],
-                ["Gym Gloves", "Grip support", images.accessories],
-                ["Resistance Bands", "Mobility work", images.rope],
-                ["Yoga Mats", "Floor training", images.yoga],
-                ["Skipping Ropes", "Conditioning", images.rope],
-                ["Kettlebells", "Power movement", images.functional],
-                ["Gym Belts", "Lifting support", images.accessories],
-                ["Barbell Rods", "Barbell training", images.strength],
-                ["Medicine Balls", "Functional drills", images.functional],
-              ].map(([item, label, image], index) => (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+              {homeAccessories.map(([item, label, image], index) => (
                 <Link
-                  href="/accessories"
+                  href="/categories#accessories"
                   key={item}
                   className="accessory-flow__item group"
                   style={{ animationDelay: `${index * 80}ms` }}
@@ -528,7 +636,7 @@ export default function HomeClient({
           </div>
 
           <div className="mt-10 text-center">
-            <ButtonLink href="/accessories">
+            <ButtonLink href="/categories#accessories">
               View All Accessories <ArrowRight className="size-4" />
             </ButtonLink>
           </div>
@@ -536,7 +644,7 @@ export default function HomeClient({
       </section>
 
       <section className="motivation-strip relative overflow-hidden pb-16 pt-3 sm:pb-20 sm:pt-4">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#0b1430_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#09122c_0%,#101a38_100%)]" />
         <div className="section-shell relative">
           <div className="motivation-strip__bar">
           {[
@@ -556,7 +664,7 @@ export default function HomeClient({
       </section>
 
       <section className="gallery-lens relative overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(140deg,#070e24_0%,#101a38_48%,#170f28_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(140deg,#09122c_0%,#101a38_48%,#872341_100%)]" />
         <div className="gallery-lens__orb gallery-lens__orb--left" />
         <div className="gallery-lens__orb gallery-lens__orb--right" />
         <div className="section-shell relative">
@@ -566,7 +674,7 @@ export default function HomeClient({
             </div>
             <h2 className="mt-5 font-display text-5xl font-black leading-[.98] tracking-[-.03em] sm:text-7xl">
               Spaces that make
-              <span className="block bg-gradient-to-r from-coral via-[#fff4ee] to-coral bg-clip-text italic text-transparent">
+              <span className="block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
                 training feel alive.
               </span>
             </h2>
@@ -576,11 +684,12 @@ export default function HomeClient({
           </div>
 
           <div className="gallery-lens__stage">
-            {galleryItems.slice(0, 6).map((item, index) => (
+            {galleryItems.slice(0, 10).map((item, index) => (
               <Link
                 href={item.href}
                 key={`${item.title}-${index}`}
-                className={`gallery-lens__card group gallery-lens__card--${index % 6}`}
+                aria-label={`${item.title} gallery image`}
+                className={`gallery-lens__card group gallery-lens__card--${index % 10}`}
                 style={{ animationDelay: `${index * 120}ms` }}
               >
                 <Image
@@ -588,14 +697,9 @@ export default function HomeClient({
                   alt={`${item.title} at Span Fitness Equipments`}
                   fill
                   sizes={index === 0 ? "(min-width: 1024px) 58vw, 100vw" : "(min-width: 1024px) 22vw, 50vw"}
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  className="gallery-lens__image object-cover transition duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
                 <div className="gallery-lens__shine" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-[10px] font-black uppercase tracking-[.2em] text-coral">{item.description}</p>
-                  <h3 className="mt-1 font-display text-2xl font-black">{item.title}</h3>
-                </div>
               </Link>
             ))}
           </div>
@@ -603,7 +707,7 @@ export default function HomeClient({
       </section>
 
       <section className="why-vertical relative overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,#09122c_0%,#101a38_50%,#0a1028_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,#09122c_0%,#101a38_50%,#070d20_100%)]" />
         <div className="why-vertical__glow why-vertical__glow--left" />
         <div className="why-vertical__glow why-vertical__glow--right" />
         <div className="section-shell relative">
@@ -613,7 +717,7 @@ export default function HomeClient({
             </div>
             <h2 className="mt-5 font-display text-5xl font-black leading-[.98] tracking-[-.03em] sm:text-7xl">
               Built to make your
-              <span className="block bg-gradient-to-r from-coral via-[#fff4ee] to-coral bg-clip-text italic text-transparent">
+              <span className="block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
                 equipment choice easier.
               </span>
             </h2>
@@ -623,7 +727,7 @@ export default function HomeClient({
             <div className="why-vertical__summary mx-auto mt-8">
               {[
                 ["Multiple", "Premium Brands"],
-                ["10+", "Service Locations"],
+                ["9+", "Service Locations"],
                 ["Cardio + Strength", "Equipment Range"],
               ].map(([value, label]) => (
                 <span key={label}>
@@ -674,7 +778,7 @@ export default function HomeClient({
                 <div className="why-vertical__rings" aria-hidden="true" />
                 <p className="text-[10px] font-black uppercase tracking-[.24em] text-coral">Service Locations</p>
                 <h3 className="mt-3 font-display text-4xl font-black leading-tight">
-                  10+ locations with quick enquiry support.
+                  9+ locations with quick enquiry support.
                 </h3>
                 <p className="mt-4 text-sm leading-7 text-white/58">
                   Reach out for product suggestions, gym setup planning and availability support near your city.
@@ -704,13 +808,209 @@ export default function HomeClient({
                   Contact Our Team <ArrowRight className="ml-2 size-4" />
                 </Link>
               </div>
+              <div className="why-vertical__service-strip">
+                {[
+                  ["Quick", "Product Shortlist"],
+                  ["Space", "Setup Guidance"],
+                  ["City", "Availability Help"],
+                ].map(([value, label]) => (
+                  <span key={label}>
+                    <strong>{value}</strong>
+                    <small>{label}</small>
+                  </span>
+                ))}
+              </div>
+              <div className="why-vertical__service-fill">
+                <span>Need support near your location?</span>
+                <h3>Tell us your city, space size and equipment plan.</h3>
+                <p>
+                  We will help with a practical shortlist for home gyms, commercial floors, apartments, hotels and fitness studios.
+                </p>
+                <Link href="/contact" className="inline-flex items-center gap-2 font-black text-coral transition hover:translate-x-1">
+                  Start Enquiry <ArrowRight className="size-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="testimonial-showcase testimonial-experience relative overflow-hidden py-20 sm:py-24">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_14%,rgba(225,117,100,.2),transparent_30%),radial-gradient(circle_at_78%_20%,rgba(255,247,243,.08),transparent_28%),linear-gradient(135deg,#070d20_0%,#101a38_48%,#09122c_100%)]" />
+        <div className="testimonial-showcase__orb testimonial-showcase__orb--left" />
+        <div className="testimonial-showcase__orb testimonial-showcase__orb--right" />
+        <Quote className="testimonial-experience__quote testimonial-experience__quote--one" />
+        <Quote className="testimonial-experience__quote testimonial-experience__quote--two" />
+        <div className="section-shell relative">
+          <div className="testimonial-experience__header">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-coral/25 bg-coral/10 px-4 py-2 text-[10px] font-black uppercase tracking-[.24em] text-coral">
+                <Quote className="size-4" /> Testimonials
+              </div>
+              <h2 className="mt-5 font-display text-5xl font-black leading-[.98] tracking-[-.03em] sm:text-7xl">
+                Trusted by Gym Owners
+                <span className="block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
+                  Across India
+                </span>
+              </h2>
+            </div>
+            <p>
+              <strong>Real Stories. Real Transformations. Real Results.</strong>
+              Customers choose Span Fitness for product quality, clear installation guidance,
+              dependable support and equipment decisions that make business sense.
+            </p>
+          </div>
+
+          <div className="testimonial-stats-grid">
+            {testimonialStats.map(([value, label], index) => (
+              <div key={label} className="testimonial-stat-card" style={{ animationDelay: `${index * 80}ms` }}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="testimonial-premium-grid">
+            <article className="testimonial-spotlight-card">
+              <div className="testimonial-spotlight-card__media">
+                <Image
+                  src={featuredStory.image}
+                  alt={`${featuredStory.name} gym setup testimonial`}
+                  fill
+                  sizes="(min-width: 1024px) 36vw, 100vw"
+                  className="object-cover"
+                />
+                <span>{featuredStory.badge}</span>
+              </div>
+              <div className="testimonial-spotlight-card__content">
+                <div className="testimonial-card__stars" aria-label="5 star testimonial">
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <Star key={starIndex} className="size-4 fill-current" />
+                  ))}
+                </div>
+                <h3>{featuredStory.result}</h3>
+                <p>{featuredStory.quote}</p>
+                <div className="testimonial-card__person">
+                  <span>{featuredStory.name.slice(0, 1)}</span>
+                  <div>
+                    <strong>{featuredStory.name}</strong>
+                    <small>{featuredStory.role} · {featuredStory.location}</small>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article className="testimonial-transform-card">
+              <div className="testimonial-transform-card__head">
+                <span>Gym Transformation</span>
+                <strong>Before / After Setup</strong>
+              </div>
+              <div className="testimonial-before-after">
+                <Image src="/images/gallery/gallery8.jpg" alt="Before gym planning consultation" fill sizes="(min-width: 1024px) 30vw, 100vw" className="testimonial-before-after__image object-cover" />
+                <div className="testimonial-before-after__after">
+                  <Image src="/images/gallery/gallery1.jpg" alt="After Span Fitness showroom equipment setup" fill sizes="(min-width: 1024px) 30vw, 100vw" className="object-cover" />
+                </div>
+                <span className="testimonial-before-after__handle" />
+                <small className="testimonial-before-after__label testimonial-before-after__label--before">Before</small>
+                <small className="testimonial-before-after__label testimonial-before-after__label--after">After</small>
+              </div>
+              <p>From unclear equipment choices to a focused cardio, strength and support plan.</p>
+            </article>
+
+            <article className="testimonial-video-card">
+              <Image
+                src={videoStory.image}
+                alt={`${videoStory.name} video testimonial highlight`}
+                fill
+                sizes="(min-width: 1024px) 28vw, 100vw"
+                className="object-cover"
+              />
+              <div className="testimonial-video-card__veil" />
+              <button type="button" aria-label="Play customer video testimonial">
+                <Play className="size-6 fill-current" />
+              </button>
+              <div>
+                <span>{videoStory.badge}</span>
+                <h3>Customer video review</h3>
+                <p>{videoStory.location} · {videoStory.result}</p>
+              </div>
+            </article>
+
+            <div className="testimonial-masonry">
+              {trustedStories.slice(1).map((item, index) => (
+                <article
+                  key={`${item.name}-${item.badge}`}
+                  className="testimonial-card testimonial-card--compact"
+                  style={{ animationDelay: `${index * 110}ms` }}
+                >
+                  <div className="testimonial-card__topline">
+                    <span>{item.badge}</span>
+                    <small><MapPin className="size-3" /> {item.location}</small>
+                  </div>
+                  <div className="testimonial-card__stars" aria-label="5 star testimonial">
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
+                      <Star key={starIndex} className="size-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <Quote className="testimonial-card__quote-icon" />
+                  <p className="testimonial-card__quote">{item.quote}</p>
+                  <div className="testimonial-card__person">
+                    <span>{item.name.slice(0, 1)}</span>
+                    <div>
+                      <strong>{item.name}</strong>
+                      <small>{item.role}</small>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden">
+            {testimonials.slice(0, 3).map((item, index) => (
+              <article
+                key={`${item.name}-${index}`}
+                className="testimonial-card"
+                style={{ animationDelay: `${index * 120}ms` }}
+              >
+                <div className="testimonial-card__stars" aria-label="5 star testimonial">
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <Star key={starIndex} className="size-4 fill-current" />
+                  ))}
+                </div>
+                <Quote className="testimonial-card__quote-icon" />
+                <p className="testimonial-card__quote">{item.quote}</p>
+                <div className="testimonial-card__person">
+                  <span>{item.name.slice(0, 1)}</span>
+                  <div>
+                    <strong>{item.name}</strong>
+                    <small>{item.role} · {item.location}</small>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="testimonial-trust-strip">
+            {testimonialTrust.map((item) => (
+              <span key={item}>
+                <CheckCircle2 className="size-4" /> {item}
+              </span>
+            ))}
+          </div>
+
+          <div className="testimonial-marquee" aria-label="Customer gym names">
+            <div>
+              {[...testimonialMarquee, ...testimonialMarquee].map((item, index) => (
+                <span key={`${item}-${index}`}>{item}</span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       <section id="brands" className="brand-board relative scroll-mt-28 overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,#070e24_0%,#101a38_48%,#190f27_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,#09122c_0%,#101a38_48%,#872341_100%)]" />
         <div className="brand-board__grain absolute inset-0" />
         <div className="brand-board__aurora brand-board__aurora--one" aria-hidden="true" />
         <div className="brand-board__aurora brand-board__aurora--two" aria-hidden="true" />
@@ -724,79 +1024,17 @@ export default function HomeClient({
         <div className="brand-board__corner brand-board__corner--one" />
         <div className="brand-board__corner brand-board__corner--two" />
         <div className="section-shell relative">
-          <div className="mx-auto max-w-5xl text-center">
-            <p className="brand-board__tagline">
-              Premium fitness equipment names
-            </p>
-            <p className="brand-board__script">Brand&apos;s We Deal</p>
-            <div className="mx-auto mt-3 h-px max-w-md bg-gradient-to-r from-transparent via-coral/45 to-transparent" />
-          </div>
-
-          <div className="brand-board__stack">
-            <div className="brand-board__rail brand-board__rail--left" aria-hidden="true" />
-            <div className="brand-board__rail brand-board__rail--right" aria-hidden="true" />
-            {brands.map((item, index) => (
-              <Link
-                href="#brands"
-                key={item.slug}
-                className={`brand-board__word brand-board__word--${brandTone(item.slug)}`}
-                style={{ animationDelay: `${index * 180}ms` }}
-              >
-                <span className="brand-board__pulse" aria-hidden="true" />
-                <span className="brand-board__name">{item.name}</span>
-                <span className="brand-board__sub">{item.specialties[0] || "Fitness"}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="social-ribbon relative overflow-hidden py-12">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(225,117,100,.18),transparent_32%),linear-gradient(180deg,#09122c_0%,#0f1834_100%)]" />
-        <div className="social-ribbon__dot social-ribbon__dot--one" />
-        <div className="social-ribbon__dot social-ribbon__dot--two" />
-        <div className="social-ribbon__dot social-ribbon__dot--three" />
-        <div className="section-shell relative">
-          <div className="social-ribbon__card">
-            <div>
-              <p className="social-ribbon__badge"><Sparkles className="size-4" /> Stay connected</p>
-              <h2 className="mt-2 font-display text-3xl font-black leading-tight sm:text-4xl">
-                Follow us for equipment updates, gym setup ideas and new arrivals.
-              </h2>
-              <div className="social-ribbon__chips">
-                <span>New arrivals</span>
-                <span>Setup ideas</span>
-                <span>Offers</span>
-              </div>
+          <div className="brand-board__panel">
+            <div className="brand-board__panel-head">
+              <p>Brand&apos;s We Deal</p>
             </div>
-            <div className="social-ribbon__icons">
-              {[
-                [Instagram, "Instagram", "https://www.instagram.com/spanfitnes/"],
-                [Facebook, "Facebook", "https://www.facebook.com/SpanFitnessGymEquipment/"],
-                [Youtube, "YouTube", "https://www.youtube.com/results?search_query=Span+Fitness+Equipments"],
-              ].map(([Icon, label, href], index) => {
-                const SocialIcon = Icon as typeof Instagram;
-                return (
-                <a
-                  key={index}
-                  title={`${label} profile`}
-                  aria-label={`${label} profile`}
-                  href={String(href)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-ribbon__icon"
-                  style={{ animationDelay: `${index * 120}ms` }}
-                >
-                  <SocialIcon className="size-5" />
-                </a>
-              );})}
-            </div>
+            <BrandLogoRail tone="dark" />
           </div>
         </div>
       </section>
 
       <section className="contact-highlight relative overflow-hidden py-20 sm:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(225,117,100,.24),transparent_32%),radial-gradient(circle_at_82%_20%,rgba(255,247,243,.08),transparent_30%),linear-gradient(135deg,#070e24_0%,#101a38_54%,#160f25_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(225, 117, 100,.24),transparent_32%),radial-gradient(circle_at_82%_20%,rgba(255, 247, 243,.08),transparent_30%),linear-gradient(135deg,#09122c_0%,#101a38_54%,#872341_100%)]" />
         <div className="contact-highlight__grid absolute inset-0" />
         <div className="contact-highlight__sparkle contact-highlight__sparkle--one" />
         <div className="contact-highlight__sparkle contact-highlight__sparkle--two" />
@@ -805,7 +1043,7 @@ export default function HomeClient({
         <div className="contact-highlight__ring contact-highlight__ring--two" />
         <div className="section-shell relative">
           <div className="contact-highlight__header mx-auto mb-12 max-w-4xl text-center">
-            <div className="mx-auto grid size-24 place-items-center rounded-3xl border border-white/10 bg-[#f1efec] p-3 shadow-[0_24px_70px_rgba(0,0,0,.32)]">
+            <div className="mx-auto grid size-24 place-items-center rounded-3xl border border-white/10 bg-[#fff7f3] p-3 shadow-[0_24px_70px_rgba(0,0,0,.32)]">
               <Image
                 src="/span-fitness-logo.png"
                 alt="Span Fitness Equipments"
@@ -817,7 +1055,7 @@ export default function HomeClient({
             <p className="mt-6 text-xs font-black uppercase tracking-widest text-coral">Get In Touch</p>
             <h2 className="mt-3 font-display text-5xl font-black leading-[.98] sm:text-7xl">
               Let&apos;s plan your
-              <span className="block bg-gradient-to-r from-coral via-[#fff4ee] to-coral bg-clip-text italic text-transparent">
+              <span className="block bg-gradient-to-r from-coral via-[#fff7f3] to-coral bg-clip-text italic text-transparent">
                 perfect gym setup.
               </span>
             </h2>
@@ -826,7 +1064,7 @@ export default function HomeClient({
             <div className="contact-highlight__info grid gap-4">
               {[
                 [Users, business.owner, "Owner / Contact Person"],
-                [Phone, business.phone, "Phone"],
+                [Phone, phoneDisplay, "Phone"],
                 [Mail, business.email, "Email"],
                 [MapPin, business.address, "Address"],
               ].map(([Icon, value, label]) => {
@@ -876,6 +1114,7 @@ export default function HomeClient({
           </div>
         </div>
       </section>
+      </div>
     </>
   );
 }

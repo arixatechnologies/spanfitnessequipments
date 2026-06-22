@@ -2,12 +2,11 @@
 
 import { createHash } from "node:crypto";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { insertLocalRow } from "@/lib/admin-store";
 import { createClient } from "@/lib/supabase/server";
 import { leadSchema } from "@/lib/validators";
 
-export type LeadFormState = { error?: string };
+export type LeadFormState = { error?: string; redirectTo?: string };
 const attempts = new Map<string, { count: number; resetAt: number }>();
 
 async function sendLeadEmail(lead: { name: string; phone: string; email: string; requirement: string; message: string; sourcePage: string }) {
@@ -68,5 +67,5 @@ export async function submitLead(_: LeadFormState, formData: FormData): Promise<
   }
 
   try { await sendLeadEmail(lead); } catch {}
-  redirect(`/thank-you?requirement=${encodeURIComponent(lead.requirement)}`);
+  return { redirectTo: `/thank-you?requirement=${encodeURIComponent(lead.requirement)}` };
 }

@@ -4,8 +4,8 @@ import { getPageMetadata } from "@/lib/seo";
 import { breadcrumbSchema, itemListSchema, JsonLd, webPageSchema } from "@/lib/schema";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
-import { CtaBand, PageHero } from "../components/site";
+import { ArrowRight, BadgeCheck, MessageCircle, Sparkles } from "lucide-react";
+import { ButtonLink, CtaBand } from "../components/site";
 import { images, whatsappUrl } from "../data";
 
 const title = "New Fitness Equipment Arrivals";
@@ -28,19 +28,74 @@ export default async function NewArrivalsPage() {
         ]}
       />
       <Breadcrumbs items={crumbs} />
-      <PageHero
-        eyebrow="Fresh Equipment"
-        title="New arrivals for stronger training spaces."
-        description="Explore recent cardio, strength and accessory additions, with quick enquiry support for specifications and availability."
-        image={images.arrivals.performanceTreadmill}
-      />
-      <section className="bg-[#fff7f3] py-20 text-navy">
+      <section className="fresh-equipment-hero">
+        <Image
+          src={images.arrivals.performanceTreadmill}
+          alt="Fresh fitness equipment arrivals at Span Fitness Equipments"
+          fill
+          priority
+          sizes="100vw"
+          className="fresh-equipment-hero__image"
+        />
+        <div className="fresh-equipment-hero__veil" />
+        <div className="fresh-equipment-hero__grid" />
+        <div className="fresh-equipment-hero__orb fresh-equipment-hero__orb--one" />
+        <div className="fresh-equipment-hero__orb fresh-equipment-hero__orb--two" />
+        <div className="section-shell relative z-10 grid items-center gap-8 lg:grid-cols-[1.04fr_.96fr]">
+          <div>
+            <p className="fresh-equipment-hero__kicker">
+              <Sparkles className="size-4" /> Fresh Equipment
+            </p>
+            <h1>New arrivals for stronger training spaces.</h1>
+            <p>
+              Explore recent cardio, strength and accessory additions, with quick enquiry support for specifications and availability.
+            </p>
+            <div className="fresh-equipment-hero__actions">
+              <ButtonLink href="#fresh-arrivals-list">
+                View Arrivals <ArrowRight className="size-4" />
+              </ButtonLink>
+              <ButtonLink href={whatsappUrl("New Fitness Equipment Arrivals")} secondary>
+                <MessageCircle className="size-4" /> Enquire Now
+              </ButtonLink>
+            </div>
+          </div>
+
+          <div className="fresh-equipment-hero__panel">
+            <div className="fresh-equipment-hero__panel-head">
+              <span>
+                <BadgeCheck className="size-4" /> Just Landed
+              </span>
+              <strong>{arrivals.length}</strong>
+            </div>
+            <div className="fresh-equipment-hero__mini-list">
+              {arrivals.slice(0, 3).map((item, index) => (
+                <Link key={item.slug} href={`#${item.slug}`} className="fresh-equipment-hero__mini-card">
+                  <span className="fresh-equipment-hero__mini-image">
+                    <Image src={item.image} alt={`${item.name} new arrival`} fill sizes="96px" className="object-cover" />
+                  </span>
+                  <span>
+                    <small>0{index + 1} / {item.brand.replaceAll("-", " ")}</small>
+                    <b>{item.name}</b>
+                  </span>
+                  <ArrowRight className="size-4" />
+                </Link>
+              ))}
+            </div>
+            <div className="fresh-equipment-hero__chips">
+              <span>Cardio</span>
+              <span>Strength</span>
+              <span>Accessories</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="fresh-arrivals-list" className="bg-[#fff7f3] py-20 text-navy">
         <div className="section-shell space-y-8">
           {arrivals.map((item, index) => (
             <article
               id={item.slug}
               key={item.slug}
-              className="scroll-mt-28 overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_24px_70px_rgba(9,18,44,.12)]"
+              className="scroll-mt-28 overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_24px_70px_rgba(9, 18, 44,.12)]"
             >
               <div className="grid gap-0 lg:grid-cols-[.95fr_1.05fr]">
                 <div className="relative min-h-72 overflow-hidden bg-navy sm:min-h-96">

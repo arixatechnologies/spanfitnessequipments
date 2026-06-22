@@ -1,6 +1,13 @@
 import { fallbackBlogPosts, type BlogPost } from "./blog-data";
 import { createClient } from "./supabase/server";
 
+function withFallbackBlogPosts(posts: BlogPost[]) {
+  const slugs = new Set(posts.map((post) => post.slug));
+  return [...posts, ...fallbackBlogPosts.filter((post) => !slugs.has(post.slug))].sort(
+    (first, second) => new Date(second.publishedAt).getTime() - new Date(first.publishedAt).getTime(),
+  );
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const supabase = await createClient();
   if (!supabase) {
@@ -31,7 +38,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         updatedAt: String(post.updated_at || post.created_at),
         faqs: []
       }));
-    return localPosts.length ? localPosts : fallbackBlogPosts;
+    return withFallbackBlogPosts(localPosts);
   }
   const { data, error } = await supabase
     .from("blog_posts")
@@ -39,7 +46,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     .eq("status", "published")
     .order("published_at", { ascending: false });
   if (error || !data?.length) return fallbackBlogPosts;
-  return data.map((post) => {
+  const posts: BlogPost[] = data.map((post) => {
     const categoryRelation = post.blog_categories as unknown as { name?: string } | null;
     return {
       id: post.id,
@@ -53,13 +60,14 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       featuredImageAlt: post.featured_image_alt || post.title,
       metaTitle: post.meta_title || post.title,
       metaDescription: post.meta_description || post.excerpt || "",
-      status: "published",
+      status: "published" as const,
       featured: post.featured,
       publishedAt: post.published_at,
       updatedAt: post.updated_at,
       faqs: Array.isArray(post.faqs) ? post.faqs as BlogPost["faqs"] : []
     };
   });
+  return withFallbackBlogPosts(posts);
 }
 
 export async function getBlogPost(slug: string) {

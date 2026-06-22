@@ -36,6 +36,15 @@ const tableNames = [
   "seo_settings",
 ] as const;
 
+const legacySeedCategoryImages = new Set([
+  "/images/categories/cardio-equipment-premium.png",
+  "/images/categories/strength-equipment-premium.png",
+  "/images/categories/commercial-gym-setup-premium.png",
+  "/images/categories/home-gym-equipment-premium.png",
+  "/images/categories/functional-training-premium.png",
+  "/images/categories/fitness-accessories-premium.png",
+]);
+
 function now() {
   return new Date().toISOString();
 }
@@ -167,6 +176,15 @@ function migrateSeededRows(database: AdminDatabase) {
       changed = true;
     }
     if (!next.image_url) {
+      next.image_url = fallback.image;
+      changed = true;
+    }
+    if (
+      next.updated_at === next.created_at &&
+      typeof next.image_url === "string" &&
+      legacySeedCategoryImages.has(next.image_url) &&
+      next.image_url !== fallback.image
+    ) {
       next.image_url = fallback.image;
       changed = true;
     }

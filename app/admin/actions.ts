@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getAdminDataClient } from "@/lib/admin-runtime";
 import { signInEnvAdmin, signOutEnvAdmin, validateEnvAdminCredentials } from "@/lib/admin-session";
 import { deleteLocalRow, getLocalRow, insertLocalRow, listLocalRows, updateLocalRow, upsertLocalRow } from "@/lib/admin-store";
-import { requireAdmin } from "@/lib/auth";
+import { getAdminUser, requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { blogPostSchema, loginSchema } from "@/lib/validators";
 
@@ -15,8 +15,7 @@ function revalidatePublicContent(table: string, values: Record<string, unknown> 
   const paths = new Set(["/", "/sitemap.xml", "/llms.txt"]);
   const slug = String(values.slug || "");
 
-  if (["products", "product_categories", "brands", "gallery_items"].includes(table)) paths.add("/categories");
-  if (["products", "accessories"].includes(table)) paths.add("/accessories");
+  if (["products", "product_categories", "brands", "gallery_items", "accessories"].includes(table)) paths.add("/categories");
   if (table === "products") paths.add("/new-arrivals");
   if (table === "offers") paths.add("/offers");
   if (table === "brands") paths.add("/about");
@@ -29,18 +28,23 @@ function revalidatePublicContent(table: string, values: Record<string, unknown> 
   for (const path of paths) revalidatePath(path);
 }
 
-export async function loginAction(_: { error?: string }, formData: FormData) {
+type RedirectableFormState = {
+  error?: string;
+  redirectTo?: string;
+};
+
+export async function loginAction(_: RedirectableFormState, formData: FormData): Promise<RedirectableFormState> {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: "Enter a valid email and password of at least 8 characters." };
   if (validateEnvAdminCredentials(parsed.data.email, parsed.data.password)) {
     await signInEnvAdmin(parsed.data.email);
-    redirect("/admin");
+    return { redirectTo: "/admin" };
   }
   const supabase = await createClient();
   if (!supabase) return { error: "Login failed. Use the configured admin email and password." };
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) return { error: "Login failed. Check your credentials and admin profile." };
-  redirect("/admin");
+  return { redirectTo: "/admin" };
 }
 
 export async function logoutAction() {
@@ -104,9 +108,7 @@ export async function updateLeadStatus(id: string, path: string, formData: FormD
   redirect(path);
 }
 
-type BlogPostFormState = {
-  error?: string;
-};
+type BlogPostFormState = RedirectableFormState;
 
 function blogPostIssueMessage(issues: { path: PropertyKey[]; message: string }[]) {
   const issue = issues[0];
@@ -148,14 +150,19 @@ function newBlogTagNames(value: unknown) {
 }
 
 export async function saveBlogPostWithState(_: BlogPostFormState, formData: FormData): Promise<BlogPostFormState> {
-  await requireAdmin();
+  const user = await getAdminUser();
+  if (!user) return { redirectTo: "/admin/login" };
   const parsed = blogPostSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: blogPostIssueMessage(parsed.error.issues) };
-  await saveBlogPost(formData);
-  return {};
+  try {
+    await saveBlogPost(formData, false);
+    return { redirectTo: "/admin/blog" };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "Could not save the blog post. Please try again." };
+  }
 }
 
-export async function saveBlogPost(formData: FormData) {
+export async function saveBlogPost(formData: FormData, shouldRedirect = true) {
   await requireAdmin();
   const parsed = blogPostSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) throw new Error(blogPostIssueMessage(parsed.error.issues));
@@ -194,7 +201,8 @@ export async function saveBlogPost(formData: FormData) {
     revalidatePublicContent("blog_posts", values);
     revalidatePath("/admin/blog");
     revalidatePath("/blog");
-    redirect("/admin/blog");
+    if (shouldRedirect) redirect("/admin/blog");
+    return;
   }
   let postId = id;
   if (id) {
@@ -227,7 +235,7 @@ export async function saveBlogPost(formData: FormData) {
 
   revalidatePublicContent("blog_posts", values);
   revalidatePath("/blog");
-  redirect("/admin/blog");
+  if (shouldRedirect) redirect("/admin/blog");
 }
 
 export async function saveProduct(formData: FormData) {

@@ -24,20 +24,51 @@ export type PublicOfferItem = {
   text: string;
 };
 
+export type PublicTestimonialItem = {
+  name: string;
+  role: string;
+  quote: string;
+  location: string;
+};
+
 const defaultGalleryItems: PublicGalleryItem[] = [
-  { title: "Commercial Gym Setup", image: "/images/gallery/premium-commercial-gym-gallery.png", description: "Complete floor planning", href: "/categories" },
-  { title: "Cardio Zone", image: "/images/gallery/cardio-zone-gallery.png", description: "Treadmills, bikes and ellipticals", href: "/categories/cardio-equipment" },
-  { title: "Strength Floor", image: "/images/gallery/strength-zone-gallery.png", description: "Racks, benches and machines", href: "/categories/strength-equipment" },
-  { title: "Home Gym", image: "/images/gallery/home-gym-gallery.png", description: "Compact fitness corners", href: "/categories/home-gym-equipment" },
-  { title: "Functional Training", image: "/images/gallery/functional-training-gallery.png", description: "Turf, ropes and conditioning", href: "/categories/functional-training" },
-  { title: "Accessory Wall", image: "/images/gallery/accessories-wall-gallery.png", description: "Everyday essentials organized", href: "/accessories" },
+  { title: "Showroom Cardio Floor", image: "/images/gallery/gallery1.jpg", description: "Live equipment display", href: "/gym-fitness/cardio" },
+  { title: "Cardio Equipment Display", image: "/images/gallery/gallery2.jpg", description: "Showroom equipment zone", href: "/gym-fitness/cardio" },
+  { title: "Customer Guidance", image: "/images/gallery/gallery3.jpg", description: "Expert buying support", href: "/about" },
+  { title: "Store Launch Moments", image: "/images/gallery/gallery4.jpg", description: "Span Fitness showroom", href: "/about" },
+  { title: "Span Fitness Team", image: "/images/gallery/gallery5.jpg", description: "People and service", href: "/contact" },
+  { title: "Showroom Team", image: "/images/gallery/gallery6.jpg", description: "Trusted support team", href: "/contact" },
+  { title: "Partner Celebration", image: "/images/gallery/gallery7.jpg", description: "Brand relationships", href: "/about" },
+  { title: "Equipment Consultation", image: "/images/gallery/gallery8.jpg", description: "Planning and guidance", href: "/contact" },
+  { title: "Gallery Moments", image: "/images/gallery/gallery9.jpg", description: "Showroom highlights", href: "/contact" },
+  { title: "Showroom Gallery", image: "/images/gallery/gallery10.jpg", description: "Span Fitness showroom", href: "/about" },
 ];
 
 const defaultOffers: PublicOfferItem[] = [
   { slug: "complete-gym-setup-consultation", tag: "Project Offer", title: "Complete Gym Setup Consultation", text: "Get a tailored equipment mix and layout guidance for gyms, apartments, hotels and institutions." },
   { slug: "strength-zone-packages", tag: "Bundle Offer", title: "Strength Zone Packages", text: "Enquire about coordinated bench, rack, barbell, plate and dumbbell combinations." },
   { slug: "new-arrival-enquiry-benefits", tag: "New Equipment", title: "New Arrival Enquiry Benefits", text: "Ask about current availability and introductory options on selected new cardio and strength products." },
+  { slug: "cardio-floor-upgrade", tag: "Cardio Value", title: "Cardio Floor Upgrade", text: "Shortlist treadmills, bikes, ellipticals and rowers together for a smoother cardio zone upgrade." },
+  { slug: "home-gym-starter-plan", tag: "Home Fitness", title: "Home Gym Starter Plan", text: "Build a practical home workout space with compact cardio, bench, dumbbells and essential accessories." },
+  { slug: "multi-play-station-support", tag: "Commercial Setup", title: "Multi Play Station Support", text: "Plan multi-user strength stations for busy gym floors with space, usage and durability guidance." },
+  { slug: "accessory-add-on-pack", tag: "Add-On Offer", title: "Accessory Add-On Pack", text: "Add mats, belts, bands, plates, gloves and training essentials while finalizing your equipment list." },
+  { slug: "service-installation-guidance", tag: "Support", title: "Service & Installation Guidance", text: "Coordinate delivery, placement and after-sales support discussions for selected equipment purchases." },
 ];
+
+const defaultTestimonials: PublicTestimonialItem[] = [
+  { name: "Commercial Gym Owner", role: "Gym Setup Customer", quote: "Span Fitness helped us compare cardio and strength equipment clearly, so our gym floor felt planned instead of crowded.", location: "Visakhapatnam" },
+  { name: "Home Fitness Buyer", role: "Home Gym Customer", quote: "The team suggested practical equipment for our room size and budget. The guidance made choosing a treadmill and accessories much easier.", location: "Andhra Pradesh" },
+  { name: "Apartment Fitness Committee", role: "Residential Gym Setup", quote: "We received a focused equipment mix for shared use, including strength, cardio and free-weight options that matched our space.", location: "Telangana" },
+];
+
+const legacyCategoryImageMap = new Map([
+  ["/images/categories/cardio-equipment-premium.png", "/images/new-arrivals/performance-treadmill-x7-new-arrival.png"],
+  ["/images/categories/strength-equipment-premium.png", "/images/new-arrivals/heavy-duty-multi-gym-new-arrival.png"],
+  ["/images/categories/commercial-gym-setup-premium.png", "/images/gallery/premium-commercial-gym-gallery.png"],
+  ["/images/categories/home-gym-equipment-premium.png", "/images/gallery/home-gym-gallery.png"],
+  ["/images/categories/functional-training-premium.png", "/images/gallery/functional-training-gallery.png"],
+  ["/images/categories/fitness-accessories-premium.png", "/images/gallery/accessories-wall-gallery.png"],
+]);
 
 function text(value: unknown, fallback = "") {
   const next = String(value ?? "").trim();
@@ -94,13 +125,14 @@ function knownOrder<T extends { slug: string }>(items: T[], fallback: readonly {
 function categoryFromRow(row: AdminRow): Category {
   const slug = text(row.slug || row.id);
   const fallback = fallbackCategories.find((item) => item.slug === slug);
+  const rawImage = text(row.image_url || row.image, fallback?.image || images.setup);
 
   return {
     slug,
     name: text(row.name || row.title, fallback?.name || slug),
     tagline: text(row.tagline, fallback?.tagline || "Equipment selected around your space and goals."),
     description: text(row.description, fallback?.description || "Explore reliable fitness equipment options for your setup."),
-    image: text(row.image_url || row.image, fallback?.image || images.setup),
+    image: legacyCategoryImageMap.get(rawImage) || rawImage,
     features: list(row.features, fallback?.features || ["Equipment guidance", "Home and commercial options", "Setup support", "Enquiry assistance"]),
   };
 }
@@ -114,13 +146,18 @@ function productFromRow(row: AdminRow, categorySlugById = new Map<string, string
   const brand = brandSlugById.get(rawBrand) || rawBrand;
   const short = text(row.short_description || row.short || row.description, fallback?.short || "Fitness equipment available on enquiry.");
   const description = text(row.full_description || row.description, fallback?.description || short);
+  const rawImage = text(row.image_url || row.image, fallback?.image || images.setup);
+  const image =
+    slug === "resistance-band-kit" ? images.resistanceBand :
+    slug === "premium-yoga-mat" ? images.yoga :
+    rawImage;
 
   return {
     slug,
     name: text(row.name || row.title, fallback?.name || slug),
     category,
     brand,
-    image: text(row.image_url || row.image, fallback?.image || images.setup),
+    image,
     short,
     description,
     features: list(row.features, fallback?.features || ["Current availability on enquiry", "Suitable for planned fitness spaces", "Product guidance available", "Delivery and setup support"]),
@@ -166,6 +203,15 @@ function offerFromRow(row: AdminRow): PublicOfferItem {
   };
 }
 
+function testimonialFromRow(row: AdminRow): PublicTestimonialItem {
+  return {
+    name: text(row.name || row.title, "Span Fitness Customer"),
+    role: text(row.role || row.designation || row.description, "Fitness Equipment Customer"),
+    quote: text(row.quote || row.text || row.description, ""),
+    location: text(row.location || row.city, "Span Fitness Service Area"),
+  };
+}
+
 export async function getPublicCategories() {
   const items = (await rows("product_categories")).filter(isPublished).map(categoryFromRow);
   return knownOrder(items, fallbackCategories);
@@ -198,21 +244,33 @@ export async function getPublicBrands() {
 
 export async function getPublicGalleryItems() {
   const items = (await rows("gallery_items")).filter(isPublished).map(galleryFromRow);
-  return items.length ? items : defaultGalleryItems;
+  if (!items.length) return defaultGalleryItems;
+  const hasGalleryTen = items.some((item) => item.image === "/images/gallery/gallery10.jpg");
+  return hasGalleryTen ? items.slice(0, 10) : [...items.slice(0, 9), defaultGalleryItems[9]];
 }
 
 export async function getPublicOffers() {
   const items = (await rows("offers")).filter(isPublished).map(offerFromRow);
-  return items.length ? items : defaultOffers;
+  const savedSlugs = new Set(items.map((item) => item.slug));
+  return [...items, ...defaultOffers.filter((item) => !savedSlugs.has(item.slug))].slice(0, 10);
+}
+
+export async function getPublicTestimonials() {
+  const items = (await rows("testimonials"))
+    .filter(isPublished)
+    .map(testimonialFromRow)
+    .filter((item) => item.quote.length > 8);
+  return [...items, ...defaultTestimonials].slice(0, 6);
 }
 
 export async function getPublicHomeContent() {
-  const [categories, products, brands, galleryItems] = await Promise.all([
+  const [categories, products, brands, galleryItems, testimonials] = await Promise.all([
     getPublicCategories(),
     getPublicProducts(),
     getPublicBrands(),
     getPublicGalleryItems(),
+    getPublicTestimonials(),
   ]);
 
-  return { categories, products, brands, galleryItems };
+  return { categories, products, brands, galleryItems, testimonials };
 }

@@ -1,6 +1,7 @@
 import { getBlogPosts } from "@/lib/data";
 import { getPublicCategories, getPublicProducts } from "@/lib/public-content";
 import { siteConfig } from "@/src/config/site";
+import { getAllFitnessPaths } from "../fitness-pages";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +26,14 @@ Span Fitness Equipments is a fitness equipment store and gym equipment dealer ba
 
 ## Main pages
 - ${siteConfig.url}/about
+- ${siteConfig.url}/home-fitness
+- ${siteConfig.url}/gym-fitness
 - ${siteConfig.url}/categories
 - ${siteConfig.url}/blog
 - ${siteConfig.url}/contact
+
+## Fitness subsections
+${getAllFitnessPaths().map((path) => `- ${siteConfig.url}${path}`).join("\n")}
 
 ## Equipment categories
 ${categories.map((item) => `- ${item.name}: ${siteConfig.url}/categories/${item.slug}`).join("\n")}

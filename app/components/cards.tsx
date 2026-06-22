@@ -6,12 +6,12 @@ import { whatsappUrl } from "../data";
 
 export function CategoryCard({ item }: { item: Category }) {
   const cardThemes: Record<string, string> = {
-    "cardio-equipment": "from-[#fff8f3] via-[#f7ece8] to-[#edd9d5]",
-    "strength-equipment": "from-[#f5efeb] via-[#eee4e2] to-[#e8d4d8]",
-    "commercial-gym-setup": "from-[#fff4ec] via-[#f6e5df] to-[#ebd2cc]",
-    "home-gym-equipment": "from-[#f7f1ed] via-[#efe6df] to-[#e7d8cf]",
-    "functional-training": "from-[#fff2ee] via-[#f4dfdc] to-[#e8cdd1]",
-    "fitness-accessories": "from-[#f8eee9] via-[#f0dfda] to-[#e5cfd0]"
+    "cardio-equipment": "from-[#fff7f3] via-[#fff7f3] to-[#872341]",
+    "strength-equipment": "from-[#fff7f3] via-[#fde3d7] to-[#101a38]",
+    "commercial-gym-setup": "from-[#fff7f3] via-[#e17564] to-[#872341]",
+    "home-gym-equipment": "from-[#fff7f3] via-[#fff7f3] to-[#101a38]",
+    "functional-training": "from-[#fff7f3] via-[#e17564] to-[#872341]",
+    "fitness-accessories": "from-[#fff7f3] via-[#fde3d7] to-[#872341]"
   };
   const accentThemes: Record<string, string> = {
     "cardio-equipment": "bg-coral",
@@ -23,7 +23,7 @@ export function CategoryCard({ item }: { item: Category }) {
   };
 
   return (
-    <Link href={`/categories/${item.slug}`} className={`group relative overflow-hidden rounded-2xl border border-white/60 bg-gradient-to-br p-6 text-navy shadow-[0_24px_65px_rgba(0,0,0,.3)] transition duration-500 hover:-translate-y-2 hover:border-white hover:shadow-[0_28px_75px_rgba(190,49,68,.26)] ${cardThemes[item.slug] || "from-[#fff8f3] to-[#ead9d4]"}`}>
+    <Link href={`/categories/${item.slug}`} className={`group relative overflow-hidden rounded-2xl border border-white/60 bg-gradient-to-br p-6 text-navy shadow-[0_24px_65px_rgba(0,0,0,.3)] transition duration-500 hover:-translate-y-2 hover:border-white hover:shadow-[0_28px_75px_rgba(135, 35, 65,.26)] ${cardThemes[item.slug] || "from-[#fff7f3] to-[#e17564]"}`}>
       <span className={`absolute inset-x-0 top-0 h-1 ${accentThemes[item.slug] || "bg-coral"}`} />
       <span className={`absolute -right-14 -top-14 size-36 rounded-full opacity-10 blur-2xl transition duration-500 group-hover:scale-125 group-hover:opacity-20 ${accentThemes[item.slug] || "bg-coral"}`} />
       <div className="flex min-h-40 items-start gap-5">
@@ -32,9 +32,9 @@ export function CategoryCard({ item }: { item: Category }) {
           <h3 className="mt-3 font-display text-2xl font-black leading-tight">{item.name}</h3>
         </div>
         <div className="category-image-glow relative h-36 w-36 shrink-0 rounded-[3.5rem_1rem_3.5rem_1rem] sm:h-40 sm:w-40">
-          <div className="image-zoom absolute inset-[3px] overflow-hidden rounded-[3.3rem_.85rem_3.3rem_.85rem] shadow-[0_16px_38px_rgba(9,18,44,.32)]">
+          <div className="image-zoom category-card-image absolute inset-[3px] overflow-hidden rounded-[3.3rem_.85rem_3.3rem_.85rem] shadow-[0_16px_38px_rgba(9, 18, 44,.24)]">
             <Image src={item.image} alt={`${item.name} from Span Fitness Equipments`} fill sizes="160px" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-white/8" />
           </div>
         </div>
       </div>

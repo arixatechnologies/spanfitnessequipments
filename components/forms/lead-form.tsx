@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Send } from "lucide-react";
 import { submitLead, type LeadFormState } from "@/app/actions/leads";
 
@@ -9,6 +9,11 @@ const initialState: LeadFormState = {};
 export function LeadForm({ requirement = "", sourcePage, compact = false }: { requirement?: string; sourcePage: string; compact?: boolean }) {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
   const inputClass = "h-12 rounded-xl border border-white/10 bg-navy/70 px-4 text-white outline-none placeholder:text-white/35 focus:border-coral";
+
+  useEffect(() => {
+    if (state.redirectTo) window.location.assign(state.redirectTo);
+  }, [state.redirectTo]);
+
   return <form action={formAction} className="grid gap-4">
     <input type="text" name="website" tabIndex={-1} autoComplete="off" className="absolute -left-[9999px]" aria-hidden="true" />
     <input type="hidden" name="sourcePage" value={sourcePage} />

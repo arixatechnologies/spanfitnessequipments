@@ -1,5 +1,5 @@
 import { CtaBand, PageHero } from "../components/site";
-import { business, images } from "../data";
+import { business, images, phoneDisplay } from "../data";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -12,7 +12,7 @@ const policyItems = [
   ["Sharing Of Information", "We do not sell your personal information. Details may be shared only with trusted service partners when required for delivery, installation, support or legal compliance."],
   ["Cookies And Analytics", "The website may use basic cookies or analytics tools to understand page performance and improve usability. You can control cookie settings from your browser."],
   ["Data Security", "We take reasonable care to protect submitted information, but no online transmission or storage method can be guaranteed to be completely secure."],
-  ["Contact", `For privacy questions, contact ${business.name} at ${business.email} or call ${business.phone}.`],
+  ["Contact", `For privacy questions, contact ${business.name} at ${business.email} or call ${phoneDisplay}.`],
 ] as const;
 
 export default function PrivacyPolicyPage() {

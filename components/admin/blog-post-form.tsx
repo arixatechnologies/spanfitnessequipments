@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { saveBlogPostWithState } from "@/app/admin/actions";
 
@@ -48,6 +48,10 @@ export function BlogPostForm({
   const [slug, setSlug] = useState(String(post?.slug || makeSlug(initialTitle)));
   const [slugEdited, setSlugEdited] = useState(Boolean(post?.slug));
   const [metaTitle, setMetaTitle] = useState(String(post?.meta_title || ""));
+
+  useEffect(() => {
+    if (state.redirectTo) window.location.assign(state.redirectTo);
+  }, [state.redirectTo]);
 
   function updateTitle(nextTitle: string) {
     setTitle(nextTitle);

@@ -4,7 +4,7 @@ export const business = {
   phone: "9703344483",
   customerCare: "9980875446",
   email: "spanfitnessequipments@gmail.com",
-  address: "D. 50-81-26, Seethampeta Main Road, Visakhapatnam - 530016",
+  address: "Door No. 50-81-26, Span Fitness Equipments, Main Road, Seethammapeta Junction, Visakhapatnam - 530016, Andhra Pradesh",
   experience: "15+ years of fitness equipment guidance",
   locations: [
     "Srikakulam", "Vizianagaram", "Visakhapatnam", "Kakinada", "Vijayawada",
@@ -12,21 +12,25 @@ export const business = {
   ]
 };
 
+export const phoneDisplay = `${business.phone} / ${business.customerCare}`;
+
 export const images = {
   hero: "/hero-storefront-new.png",
   showroom: "/about-showroom.png",
-  treadmill: "/images/categories/cardio-equipment-premium.png",
-  strength: "/images/categories/strength-equipment-premium.png",
-  setup: "/images/categories/commercial-gym-setup-premium.png",
-  home: "/images/categories/home-gym-equipment-premium.png",
-  functional: "/images/categories/functional-training-premium.png",
-  accessories: "/images/categories/fitness-accessories-premium.png",
+  treadmill: "/images/new-arrivals/performance-treadmill-x7-new-arrival.png",
+  strength: "/images/new-arrivals/heavy-duty-multi-gym-new-arrival.png",
+  setup: "/images/gallery/premium-commercial-gym-gallery.png",
+  home: "/images/gallery/home-gym-gallery.png",
+  functional: "/images/gallery/functional-training-gallery.png",
+  accessories: "/images/gallery/accessories-wall-gallery.png",
   dumbbells: "/images/products/rubber-dumbbell-set.png",
+  weightPlates: "/images/categories/weight%20plates.png",
   bike: "/images/products/studio-exercise-bike.png",
   bench: "/images/products/strength-training-bench.png",
   gym: "/images/gallery/commercial-gym-showroom.png",
   rope: "/images/accessories/fitness-accessories-dumbbells.png",
-  yoga: "/images/accessories/fitness-accessories-dumbbells.png",
+  resistanceBand: "/images/products/resistance%20band%20kit.png",
+  yoga: "/images/products/Premium%20yoga%20mat.png",
   arrivals: {
     performanceTreadmill: "/images/new-arrivals/performance-treadmill-x7-new-arrival.png",
     commercialElliptical: "/images/new-arrivals/commercial-elliptical-pro-new-arrival.png",
@@ -91,7 +95,7 @@ export const categories: Category[] = [
     slug: "fitness-accessories",
     name: "Fitness Accessories",
     tagline: "The essentials behind every great workout.",
-    description: "Dumbbells, plates, mats, gloves, belts, rods, ropes and everyday gym essentials.",
+    description: "Dumbbells, plates, mats, belts, rods, ropes and everyday gym essentials.",
     image: images.accessories,
     features: ["Broad weight selection", "Home and commercial use", "Training and safety essentials", "Bulk enquiry support"]
   }
@@ -120,8 +124,8 @@ export const products: Product[] = [
   { slug: "rubber-dumbbell-set", name: "Rubber Dumbbell Set", category: "fitness-accessories", brand: "firm", image: images.arrivals.dumbbellSet, short: "Durable free weights for home and commercial racks.", description: "Comfortable, hard-wearing dumbbells available across weight ranges for progressive strength training.", features: ["Knurled grip", "Rubber-coated heads", "Multiple weights available", "Rack options"], accessory: true, isNew: true },
   { slug: "cast-iron-kettlebell", name: "Cast Iron Kettlebell", category: "functional-training", brand: "accuniq", image: images.functional, short: "A versatile essential for power and conditioning.", description: "Balanced kettlebells for swings, carries, squats and full-body functional training.", features: ["Comfortable handle", "Stable base", "Multiple weights", "Durable finish"], accessory: true },
   { slug: "premium-yoga-mat", name: "Premium Yoga Mat", category: "fitness-accessories", brand: "reebok", image: images.yoga, short: "Supportive grip for mobility, yoga and floor work.", description: "A comfortable exercise mat for stretching, yoga, bodyweight training and recovery sessions.", features: ["Textured grip", "Comfortable cushioning", "Easy-roll design", "Simple to maintain"], accessory: true },
-  { slug: "resistance-band-kit", name: "Resistance Band Kit", category: "functional-training", brand: "welcare", image: images.rope, short: "Portable resistance for strength and mobility.", description: "A practical resistance kit for warm-ups, assisted movements, rehabilitation and full-body workouts.", features: ["Multiple resistance levels", "Portable design", "Full-body applications", "Home and studio use"], accessory: true },
-  { slug: "olympic-weight-plates", name: "Olympic Weight Plates", category: "fitness-accessories", brand: "hercules-fitness", image: images.dumbbells, short: "Reliable plates for progressive barbell training.", description: "Commercial-ready weight plates made for regular strength training and organized gym floors.", features: ["Multiple weight options", "Easy-grip design", "Durable coating", "Olympic bar compatibility"], accessory: true },
+  { slug: "resistance-band-kit", name: "Resistance Band Kit", category: "functional-training", brand: "welcare", image: images.resistanceBand, short: "Portable resistance for strength and mobility.", description: "A practical resistance kit for warm-ups, assisted movements, rehabilitation and full-body workouts.", features: ["Multiple resistance levels", "Portable design", "Full-body applications", "Home and studio use"], accessory: true },
+  { slug: "olympic-weight-plates", name: "Olympic Weight Plates", category: "fitness-accessories", brand: "hercules-fitness", image: images.weightPlates, short: "Reliable plates for progressive barbell training.", description: "Commercial-ready weight plates made for regular strength training and organized gym floors.", features: ["Multiple weight options", "Easy-grip design", "Durable coating", "Olympic bar compatibility"], accessory: true },
   { slug: "training-gloves", name: "Training Gloves", category: "fitness-accessories", brand: "reebok", image: images.accessories, short: "Grip and palm support for confident lifting.", description: "Breathable training gloves designed to improve grip and comfort during strength workouts.", features: ["Padded palm", "Adjustable wrist closure", "Breathable construction", "Secure grip"], accessory: true },
   { slug: "weightlifting-belt", name: "Weightlifting Belt", category: "fitness-accessories", brand: "firm", image: images.accessories, short: "Core support for demanding strength sessions.", description: "A supportive gym belt for lifters who want a secure fit during squats, deadlifts and heavy compound work.", features: ["Supportive profile", "Secure buckle", "Multiple sizes", "Comfortable inner finish"], accessory: true }
 ];
@@ -138,9 +142,8 @@ export const brands: Brand[] = [
 ];
 
 export const navItems = [
-  ["Home", "/"], ["About", "/about"], ["Categories", "/categories"],
-  ["New Arrivals", "/new-arrivals"], ["Accessories", "/accessories"],
-  ["Offers", "/offers"], ["Blog", "/blog"], ["Contact", "/contact"]
+  ["Home", "/"], ["About", "/about"], ["Home Fitness", "/home-fitness"], ["Gym Fitness", "/gym-fitness"], ["Categories", "/categories"],
+  ["New Arrivals", "/new-arrivals"], ["Offers", "/offers"], ["Blog", "/blog"], ["Contact", "/contact"]
 ] as const;
 
 export function whatsappUrl(subject = "gym equipment") {

@@ -8,17 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: "#09122C",
+        navy: "#09122c",
         wine: "#872341",
-        ember: "#BE3144",
-        coral: "#E17564"
+        ember: "#be3144",
+        coral: "#e17564"
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"]
       },
       boxShadow: {
-        glow: "0 0 34px rgba(190, 49, 68, 0.34)",
+        glow: "0 0 34px rgba(225, 117, 100, 0.34)",
         coral: "0 0 28px rgba(225, 117, 100, 0.32)"
       },
       animation: {
