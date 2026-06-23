@@ -13,7 +13,6 @@ import {
   PackageCheck,
   ShieldCheck,
   Sparkles,
-  Tags,
   Truck,
   Wrench,
   Zap,
@@ -45,31 +44,10 @@ const offerImages = {
 };
 const offerIcons = [Building2, Dumbbell, Sparkles, Zap, Home, PackageCheck, Gift, Wrench] as const;
 const highlightPoints = ["Space planning", "Brand guidance", "Bundle shortlists", "After-sales support"];
-const dealLabels = [
-  "Bundle Discount",
-  "Best Price Deal",
-  "Launch Benefit",
-  "Cardio Savings",
-  "Home Gym Offer",
-  "Setup Value",
-  "Add-On Deal",
-  "Service Support",
-];
-const discountCards = [
-  { value: "Combo", label: "Discounts", text: "Better value on planned equipment bundles." },
-  { value: "Best", label: "Price Check", text: "Ask for current store-level product offers." },
-  { value: "Extra", label: "Add-Ons", text: "Accessories and essentials can be grouped smartly." },
-  { value: "Setup", label: "Support", text: "Guidance for layout, selection and installation." },
-];
 const dealSteps = [
   "Share your space size and usage",
   "Choose home, commercial or institutional setup",
   "Get a focused equipment and discount shortlist",
-];
-const comboPacks = [
-  { icon: Tags, title: "Cardio + Strength Combo", text: "Combine treadmills, bikes, multi gym, benches and free weights for a stronger package value." },
-  { icon: Gift, title: "Accessories Add-On Value", text: "Pair mats, belts, bands, plates and training accessories with your main equipment enquiry." },
-  { icon: Truck, title: "Setup Ready Support", text: "Discuss delivery, placement and service guidance while finalizing selected products." },
 ];
 const heroBadges = ["Up to 25% OFF", "Free Installation", "Limited Time Offer", "Combo Savings"];
 const heroStats = [
@@ -87,6 +65,57 @@ const offerVisuals = [
   { image: offerImages.accessories, label: "Accessories", accent: "wine", popular: false },
   { image: offerImages.bench, label: "Service support", accent: "blue", popular: false },
 ];
+const featuredOffers = [
+  {
+    title: "Commercial Gym Package",
+    description: "Complete gym floor package value.",
+    badge: "Up to 25% OFF",
+    savings: "Save ₹75,000+",
+    cta: "Get Quote",
+    image: offerImages.commercial,
+    href: whatsappUrl("Commercial Gym Package offer"),
+    accent: "coral",
+  },
+  {
+    title: "Home Gym Combo",
+    description: "Cardio and strength starter kit.",
+    badge: "Combo Savings",
+    savings: "Save ₹35,000+",
+    cta: "View Offer",
+    image: offerImages.home,
+    href: whatsappUrl("Home Gym Combo offer"),
+    accent: "green",
+  },
+  {
+    title: "Multi Gym Offer",
+    description: "Multi-station strength bundle.",
+    badge: "Free Installation",
+    savings: "Save ₹28,000+",
+    cta: "Enquire Now",
+    image: offerImages.multiGym,
+    href: whatsappUrl("Multi Gym Offer"),
+    accent: "amber",
+  },
+  {
+    title: "Accessories Bundle",
+    description: "Training essentials package.",
+    badge: "Buy More Save More",
+    savings: "Save ₹12,000+",
+    cta: "View Offer",
+    image: offerImages.accessories,
+    href: whatsappUrl("Accessories Bundle offer"),
+    accent: "wine",
+  },
+] as const;
+const offerBadges = ["Up to 25% OFF", "Combo Savings", "Limited Time Offer", "Free Installation", "Buy More Save More"] as const;
+const offerSavings = ["Save ₹45,000+", "Save ₹32,000+", "Save ₹18,000+", "Save ₹22,000+", "Save ₹9,000+", "Save ₹28,000+"] as const;
+const offerCtas = ["View Offer", "Get Quote", "Enquire Now"] as const;
+const offerLines = [
+  "Premium package value for planned equipment purchases.",
+  "Smart savings on cardio, strength and setup support.",
+  "Limited-period benefit for selected fitness equipment.",
+  "Extra value when you combine products in one enquiry.",
+] as const;
 const trustBenefits = [
   { icon: MessageCircle, title: "Free Consultation", text: "Discuss space, budget and equipment goals before shortlisting." },
   { icon: Wrench, title: "Expert Installation", text: "Setup guidance for placement, usage flow and delivery planning." },
@@ -217,21 +246,33 @@ export default async function OffersPage() {
               <p className="offers-showcase__kicker">
                 <Clock3 className="size-4" /> Limited Enquiry Benefits
               </p>
-              <h2>Fresh discounts for every fitness plan.</h2>
+              <h2>Offers & discounts made easy to choose.</h2>
             </div>
             <p>
-              These deal cards are designed as smart starting points. Final discount and availability
-              depend on product, brand, stock and current store confirmation.
+              Image-first cards, clear savings and quick enquiry buttons for home gyms,
+              commercial gyms, multi gyms and accessories.
             </p>
           </div>
 
-          <div className="offers-deal-strip">
-            {discountCards.map((item) => (
-              <div key={item.label} className="offers-deal-strip__card">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-                <p>{item.text}</p>
-              </div>
+          <div className="offers-featured-grid">
+            {featuredOffers.map((item, index) => (
+              <article
+                key={item.title}
+                className={`offers-feature-card offers-feature-card--${item.accent}`}
+                style={{ "--feature-delay": `${index * 75}ms` } as CSSProperties}
+              >
+                <Image src={item.image} alt={`${item.title} offer`} fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
+                <span className="offers-feature-card__veil" />
+                <span className="offers-feature-card__badge">{item.badge}</span>
+                <span className="offers-feature-card__save">{item.savings}</span>
+                <div className="offers-feature-card__content">
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <a href={item.href}>
+                    {item.cta} <ArrowRight className="size-4" />
+                  </a>
+                </div>
+              </article>
             ))}
           </div>
 
@@ -239,6 +280,10 @@ export default async function OffersPage() {
             {offers.map(({ tag, title: offerTitle, text }, index) => {
               const Icon = offerIcons[index % offerIcons.length];
               const visual = offerVisuals[index % offerVisuals.length];
+              const badge = offerBadges[index % offerBadges.length];
+              const savings = offerSavings[index % offerSavings.length];
+              const cta = offerCtas[index % offerCtas.length];
+              const line = offerLines[index % offerLines.length] || text;
               return (
                 <article
                   key={offerTitle}
@@ -246,49 +291,28 @@ export default async function OffersPage() {
                   style={{ "--offer-delay": `${index * 70}ms` } as CSSProperties}
                 >
                   <span className="offers-ticket__number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="offers-ticket__deal">{dealLabels[index % dealLabels.length]}</span>
+                  <span className="offers-ticket__deal">{badge}</span>
                   {visual.popular && <span className="offers-ticket__ribbon">Most Popular</span>}
                   <BadgePercent className="offers-ticket__watermark" />
                   <div className="offers-ticket__media">
                     <Image src={visual.image} alt={`${visual.label} offer`} fill sizes="(min-width: 1024px) 18vw, 100vw" className="object-cover" />
+                    <span className="offers-ticket__save">{savings}</span>
                   </div>
-                  <div className="offers-ticket__icon">
-                    <Icon className="size-5" />
+                  <div className="offers-ticket__body">
+                    <div className="offers-ticket__icon">
+                      <Icon className="size-5" />
+                    </div>
+                    <p>{tag}</p>
+                    <h3>{offerTitle}</h3>
+                    <span className="offers-ticket__line" />
+                    <small>{line}</small>
+                    <a href={whatsappUrl(offerTitle)} className="offers-ticket__link">
+                      {cta} <ArrowRight className="size-4" />
+                    </a>
                   </div>
-                  <p>{tag}</p>
-                  <h3>{offerTitle}</h3>
-                  <span className="offers-ticket__line" />
-                  <small>{text}</small>
-                  <a href={whatsappUrl(offerTitle)} className="offers-ticket__link">
-                    Enquire Now <ArrowRight className="size-4" />
-                  </a>
                 </article>
               );
             })}
-          </div>
-
-          <div className="offers-combo-panel">
-            <div>
-              <p className="offers-showcase__kicker">
-                <Tags className="size-4" /> Deal Builder
-              </p>
-              <h2>Build a package that feels worth it.</h2>
-              <p>
-                Instead of checking one item at a time, combine the right equipment groups and ask
-                for the best current discount direction.
-              </p>
-            </div>
-            <div className="offers-combo-panel__list">
-              {comboPacks.map(({ icon: Icon, title, text }) => (
-                <div key={title} className="offers-combo-panel__item">
-                  <span><Icon className="size-4" /></span>
-                  <div>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="offers-board__note">

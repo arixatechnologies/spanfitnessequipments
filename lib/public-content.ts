@@ -64,10 +64,6 @@ const defaultTestimonials: PublicTestimonialItem[] = [
 const legacyCategoryImageMap = new Map([
   ["/images/categories/cardio-equipment-premium.png", "/images/new-arrivals/performance-treadmill-x7-new-arrival.png"],
   ["/images/categories/strength-equipment-premium.png", "/images/new-arrivals/heavy-duty-multi-gym-new-arrival.png"],
-  ["/images/categories/commercial-gym-setup-premium.png", "/images/gallery/premium-commercial-gym-gallery.png"],
-  ["/images/categories/home-gym-equipment-premium.png", "/images/gallery/home-gym-gallery.png"],
-  ["/images/categories/functional-training-premium.png", "/images/gallery/functional-training-gallery.png"],
-  ["/images/categories/fitness-accessories-premium.png", "/images/gallery/accessories-wall-gallery.png"],
 ]);
 
 function text(value: unknown, fallback = "") {
