@@ -56,23 +56,21 @@ const heroStats = [
   { value: "5000+", label: "Happy Customers" },
 ];
 const offerVisuals = [
-  { image: offerImages.commercial, label: "Commercial setup", accent: "coral", popular: true },
-  { image: offerImages.strength, label: "Strength package", accent: "wine", popular: true },
-  { image: offerImages.cardio, label: "New cardio", accent: "amber", popular: false },
-  { image: offerImages.showroom, label: "Cardio upgrade", accent: "blue", popular: false },
-  { image: offerImages.home, label: "Home gym", accent: "green", popular: true },
-  { image: offerImages.hero, label: "Setup value", accent: "coral", popular: false },
-  { image: offerImages.accessories, label: "Accessories", accent: "wine", popular: false },
-  { image: offerImages.bench, label: "Service support", accent: "blue", popular: false },
+  { image: "/images/offers/image1.png", label: "Complete Setup", accent: "coral", popular: true },
+  { image: "/images/offers/image2.png", label: "Strength package", accent: "wine", popular: true },
+  { image: "/images/offers/image3.png", label: "New arrival", accent: "amber", popular: false },
+  { image: "/images/offers/image4.png", label: "Cardio upgrade", accent: "blue", popular: false },
+  { image: "/images/offers/image5.png", label: "Home gym", accent: "green", popular: true },
+  { image: "/images/offers/image6.png", label: "Setup value", accent: "coral", popular: false },
+  { image: "/images/offers/image7.png", label: "Accessories", accent: "wine", popular: false },
 ];
 const featuredOffers = [
   {
     title: "Commercial Gym Package",
     description: "Complete gym floor package value.",
     badge: "Up to 25% OFF",
-    savings: "Save ₹75,000+",
     cta: "Get Quote",
-    image: offerImages.commercial,
+    image: "/images/offers/image1.png",
     href: whatsappUrl("Commercial Gym Package offer"),
     accent: "coral",
   },
@@ -80,9 +78,8 @@ const featuredOffers = [
     title: "Home Gym Combo",
     description: "Cardio and strength starter kit.",
     badge: "Combo Savings",
-    savings: "Save ₹35,000+",
     cta: "View Offer",
-    image: offerImages.home,
+    image: "/images/offers/image2.png",
     href: whatsappUrl("Home Gym Combo offer"),
     accent: "green",
   },
@@ -90,9 +87,8 @@ const featuredOffers = [
     title: "Multi Gym Offer",
     description: "Multi-station strength bundle.",
     badge: "Free Installation",
-    savings: "Save ₹28,000+",
     cta: "Enquire Now",
-    image: offerImages.multiGym,
+    image: "/images/offers/image3.png",
     href: whatsappUrl("Multi Gym Offer"),
     accent: "amber",
   },
@@ -100,15 +96,13 @@ const featuredOffers = [
     title: "Accessories Bundle",
     description: "Training essentials package.",
     badge: "Buy More Save More",
-    savings: "Save ₹12,000+",
     cta: "View Offer",
-    image: offerImages.accessories,
+    image: "/images/offers/image4.png",
     href: whatsappUrl("Accessories Bundle offer"),
     accent: "wine",
   },
 ] as const;
 const offerBadges = ["Up to 25% OFF", "Combo Savings", "Limited Time Offer", "Free Installation", "Buy More Save More"] as const;
-const offerSavings = ["Save ₹45,000+", "Save ₹32,000+", "Save ₹18,000+", "Save ₹22,000+", "Save ₹9,000+", "Save ₹28,000+"] as const;
 const offerCtas = ["View Offer", "Get Quote", "Enquire Now"] as const;
 const offerLines = [
   "Premium package value for planned equipment purchases.",
@@ -264,7 +258,6 @@ export default async function OffersPage() {
                 <Image src={item.image} alt={`${item.title} offer`} fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
                 <span className="offers-feature-card__veil" />
                 <span className="offers-feature-card__badge">{item.badge}</span>
-                <span className="offers-feature-card__save">{item.savings}</span>
                 <div className="offers-feature-card__content">
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
@@ -281,7 +274,6 @@ export default async function OffersPage() {
               const Icon = offerIcons[index % offerIcons.length];
               const visual = offerVisuals[index % offerVisuals.length];
               const badge = offerBadges[index % offerBadges.length];
-              const savings = offerSavings[index % offerSavings.length];
               const cta = offerCtas[index % offerCtas.length];
               const line = offerLines[index % offerLines.length] || text;
               return (
@@ -296,7 +288,6 @@ export default async function OffersPage() {
                   <BadgePercent className="offers-ticket__watermark" />
                   <div className="offers-ticket__media">
                     <Image src={visual.image} alt={`${visual.label} offer`} fill sizes="(min-width: 1024px) 18vw, 100vw" className="object-cover" />
-                    <span className="offers-ticket__save">{savings}</span>
                   </div>
                   <div className="offers-ticket__body">
                     <div className="offers-ticket__icon">

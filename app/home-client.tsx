@@ -11,7 +11,6 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  Play,
   Phone,
   Quote,
   ShieldCheck,
@@ -92,7 +91,7 @@ const testimonialDetails = [
   {
     badge: "Commercial Gym",
     location: "Visakhapatnam",
-    image: "/images/gallery/gallery1.jpg",
+    image: "/images/home/testimonial1.png",
     result: "Better zone planning and stronger product mix.",
   },
   {
@@ -167,7 +166,6 @@ const homeAccessories = [
   ["Gym Belts", "Lifting support", "/images/about/gym belts.png"],
   ["Gym Gloves", "Grip support", "/images/about/gym gloves.webp"],
   ["Kettlebells", "Power movement", "/images/about/kettlebells.png"],
-  ["Medicine Balls", "Functional drills", "/images/about/medicine balls.png"],
   ["Resistance Bands", "Mobility work", "/images/about/resistance bands.png"],
   ["Skipping Ropes", "Conditioning", "/images/about/skipping ropes.png"],
   ["Span Fitness Showroom", "Accessory display", "/images/about/span-fitness-showroom.png"],
@@ -280,7 +278,6 @@ export default function HomeClient({
     };
   });
   const featuredStory = trustedStories[0];
-  const videoStory = trustedStories[1];
 
   useEffect(() => {
     if (heroSlides.length <= 1) return;
@@ -609,7 +606,7 @@ export default function HomeClient({
 
           <div className="accessory-flow__rail relative mx-auto mt-12 max-w-6xl">
             <div className="accessory-flow__line" aria-hidden="true" />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
               {homeAccessories.map(([item, label, image], index) => (
                 <Link
                   href="/categories#accessories"
@@ -878,7 +875,7 @@ export default function HomeClient({
                   alt={`${featuredStory.name} gym setup testimonial`}
                   fill
                   sizes="(min-width: 1024px) 36vw, 100vw"
-                  className="object-cover"
+                  className="object-cover object-[center_25%]"
                 />
                 <span>{featuredStory.badge}</span>
               </div>
@@ -897,6 +894,23 @@ export default function HomeClient({
                     <small>{featuredStory.role} · {featuredStory.location}</small>
                   </div>
                 </div>
+                <div className="testimonial-spotlight-card__extras">
+                  <div className="testimonial-spotlight-card__extras-row">
+                    {testimonialStats.map(([value, label]) => (
+                      <div key={label} className="testimonial-spotlight-card__mini-stat">
+                        <strong>{value}</strong>
+                        <small>{label}</small>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="testimonial-spotlight-card__trust">
+                    {testimonialTrust.slice(0, 3).map((item) => (
+                      <span key={item}>
+                        <CheckCircle2 className="size-3.5" /> {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </article>
 
@@ -906,35 +920,45 @@ export default function HomeClient({
                 <strong>Before / After Setup</strong>
               </div>
               <div className="testimonial-before-after">
-                <Image src="/images/gallery/gallery8.jpg" alt="Before gym planning consultation" fill sizes="(min-width: 1024px) 30vw, 100vw" className="testimonial-before-after__image object-cover" />
-                <div className="testimonial-before-after__after">
-                  <Image src="/images/gallery/gallery1.jpg" alt="After Span Fitness showroom equipment setup" fill sizes="(min-width: 1024px) 30vw, 100vw" className="object-cover" />
-                </div>
-                <span className="testimonial-before-after__handle" />
-                <small className="testimonial-before-after__label testimonial-before-after__label--before">Before</small>
-                <small className="testimonial-before-after__label testimonial-before-after__label--after">After</small>
+                <div className="testimonial-before-after__label testimonial-before-after__label--before">Before</div>
+                <div className="testimonial-before-after__label testimonial-before-after__label--after">After</div>
+                <Image
+                  src="/images/home/before.png"
+                  alt="Gym transformation before and after Span Fitness equipment setup"
+                  fill
+                  sizes="(min-width: 1024px) 30vw, 100vw"
+                  className="object-cover object-center"
+                />
               </div>
-              <p>From unclear equipment choices to a focused cardio, strength and support plan.</p>
+              <p>From an empty space to a fully equipped gym with premium cardio, strength and functional training setups.</p>
+              <div className="testimonial-transform-card__footer">
+                <h3 className="testimonial-transform-card__title">
+                  We turn empty spaces into <span>elite fitness zones.</span>
+                </h3>
+                <p className="testimonial-transform-card__sub">
+                  Every gym we equip is planned around your space, budget and usage — from compact home setups to full commercial floors.
+                </p>
+                <div className="testimonial-transform-card__chips">
+                  {[
+                    ["1000+", "Gym setups done"],
+                    ["5000+", "Happy customers"],
+                    ["9+", "Brand partners"],
+                  ].map(([val, lbl]) => (
+                    <div key={lbl} className="testimonial-transform-card__chip">
+                      <strong>{val}</strong>
+                      <small>{lbl}</small>
+                    </div>
+                  ))}
+                </div>
+                <div className="testimonial-transform-card__highlights">
+                  {["Space Planning", "Brand Guidance", "After-Sales Support", "PAN India Delivery"].map((item) => (
+                    <span key={item}><CheckCircle2 className="size-3.5" /> {item}</span>
+                  ))}
+                </div>
+              </div>
             </article>
 
-            <article className="testimonial-video-card">
-              <Image
-                src={videoStory.image}
-                alt={`${videoStory.name} video testimonial highlight`}
-                fill
-                sizes="(min-width: 1024px) 28vw, 100vw"
-                className="object-cover"
-              />
-              <div className="testimonial-video-card__veil" />
-              <button type="button" aria-label="Play customer video testimonial">
-                <Play className="size-6 fill-current" />
-              </button>
-              <div>
-                <span>{videoStory.badge}</span>
-                <h3>Customer video review</h3>
-                <p>{videoStory.location} · {videoStory.result}</p>
-              </div>
-            </article>
+
 
             <div className="testimonial-masonry">
               {trustedStories.slice(1).map((item, index) => (

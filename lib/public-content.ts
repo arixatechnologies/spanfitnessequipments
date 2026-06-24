@@ -48,11 +48,6 @@ const defaultOffers: PublicOfferItem[] = [
   { slug: "complete-gym-setup-consultation", tag: "Project Offer", title: "Complete Gym Setup Consultation", text: "Get a tailored equipment mix and layout guidance for gyms, apartments, hotels and institutions." },
   { slug: "strength-zone-packages", tag: "Bundle Offer", title: "Strength Zone Packages", text: "Enquire about coordinated bench, rack, barbell, plate and dumbbell combinations." },
   { slug: "new-arrival-enquiry-benefits", tag: "New Equipment", title: "New Arrival Enquiry Benefits", text: "Ask about current availability and introductory options on selected new cardio and strength products." },
-  { slug: "cardio-floor-upgrade", tag: "Cardio Value", title: "Cardio Floor Upgrade", text: "Shortlist treadmills, bikes, ellipticals and rowers together for a smoother cardio zone upgrade." },
-  { slug: "home-gym-starter-plan", tag: "Home Fitness", title: "Home Gym Starter Plan", text: "Build a practical home workout space with compact cardio, bench, dumbbells and essential accessories." },
-  { slug: "multi-play-station-support", tag: "Commercial Setup", title: "Multi Play Station Support", text: "Plan multi-user strength stations for busy gym floors with space, usage and durability guidance." },
-  { slug: "accessory-add-on-pack", tag: "Add-On Offer", title: "Accessory Add-On Pack", text: "Add mats, belts, bands, plates, gloves and training essentials while finalizing your equipment list." },
-  { slug: "service-installation-guidance", tag: "Support", title: "Service & Installation Guidance", text: "Coordinate delivery, placement and after-sales support discussions for selected equipment purchases." },
 ];
 
 const defaultTestimonials: PublicTestimonialItem[] = [
