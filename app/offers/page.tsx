@@ -188,10 +188,10 @@ export default async function OffersPage() {
                 <Image src={offerImages.commercial} alt="Premium commercial gym equipment package offer" fill sizes="(min-width: 1024px) 46vw, 100vw" className="object-cover" />
               </span>
               <span className="offers-showcase__photo offers-showcase__photo--small">
-                <Image src={offerImages.home} alt="Home gym equipment starter package offer" fill sizes="260px" className="object-cover" />
+                <Image src="/images/offers/off1.png" alt="Gym equipment offer" fill sizes="260px" className="object-cover" />
               </span>
               <span className="offers-showcase__photo offers-showcase__photo--wide">
-                <Image src={offerImages.multiGym} alt="Multi gym combo equipment offer" fill sizes="320px" className="object-cover" />
+                <Image src="/images/offers/off2.png" alt="Fitness equipment offer" fill sizes="320px" className="object-cover" />
               </span>
               <div className="offers-showcase__badges">
                 {heroBadges.map((badge, index) => (
